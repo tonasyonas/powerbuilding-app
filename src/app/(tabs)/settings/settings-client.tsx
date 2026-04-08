@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { BottomNav } from "@/components/bottom-nav";
+
 
 type Week = {
   id: number;
@@ -691,7 +691,6 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
         </div>
       </div>
 
-      <BottomNav />
     </div>
   );
 }

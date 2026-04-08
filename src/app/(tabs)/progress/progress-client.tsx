@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { BottomNav } from "@/components/bottom-nav";
+
 import type { ProgressData } from "./page";
 
 // Lazy-load Recharts components to keep bundle small
@@ -124,8 +124,7 @@ export function ProgressClient({ data }: { data: ProgressData }) {
             </p>
           </div>
         </div>
-        <BottomNav />
-      </div>
+              </div>
     );
   }
 
@@ -325,7 +324,6 @@ export function ProgressClient({ data }: { data: ProgressData }) {
           )}
         </section>
       </div>
-      <BottomNav />
-    </div>
+          </div>
   );
 }

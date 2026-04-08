@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BottomNav } from "@/components/bottom-nav";
+
 import type { WorkoutLogEntry, SetLogDetail } from "./page";
 
 type HistoryClientProps = {
@@ -199,8 +199,7 @@ export function HistoryClient({ logs, unit }: HistoryClientProps) {
             </p>
           </div>
         </div>
-        <BottomNav />
-      </div>
+              </div>
     );
   }
 
@@ -246,7 +245,6 @@ export function HistoryClient({ logs, unit }: HistoryClientProps) {
           ))}
         </div>
       </div>
-      <BottomNav />
-    </div>
+          </div>
   );
 }
