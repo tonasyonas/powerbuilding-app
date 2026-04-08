@@ -1,0 +1,580 @@
+{
+  "exercises": [
+    {
+      "id": "back-squat",
+      "name": "Back Squat",
+      "body_part": "legs",
+      "muscle_groups": ["quads", "glutes", "spinal erectors"],
+      "category": "compound",
+      "default_reference_lift": "squat",
+      "substitution_group": "squat-primary"
+    },
+    {
+      "id": "squat-walkout-hold",
+      "name": "Squat Walk-Out Hold",
+      "body_part": "legs",
+      "muscle_groups": ["quads", "glutes", "core"],
+      "category": "overload",
+      "default_reference_lift": "squat",
+      "substitution_group": "squat-overload"
+    },
+    {
+      "id": "overhead-press",
+      "name": "Overhead Press",
+      "body_part": "shoulders",
+      "muscle_groups": ["front delts", "triceps"],
+      "category": "compound",
+      "default_reference_lift": "ohp",
+      "substitution_group": "ohp-primary"
+    },
+    {
+      "id": "close-grip-bench-press",
+      "name": "Close-Grip Bench Press",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps", "front delts"],
+      "category": "compound",
+      "default_reference_lift": "bench",
+      "substitution_group": "bench-secondary"
+    },
+    {
+      "id": "glute-ham-raise",
+      "name": "Glute Ham Raise",
+      "body_part": "legs",
+      "muscle_groups": ["hamstrings", "glutes"],
+      "category": "accessory",
+      "default_reference_lift": null,
+      "substitution_group": "hamstring-accessory"
+    },
+    {
+      "id": "helms-row",
+      "name": "Helms Row",
+      "body_part": "back",
+      "muscle_groups": ["lats", "rhomboids", "rear delts"],
+      "category": "accessory",
+      "default_reference_lift": null,
+      "substitution_group": "row-accessory"
+    },
+    {
+      "id": "hammer-curl",
+      "name": "Hammer Curl",
+      "body_part": "arms",
+      "muscle_groups": ["biceps", "brachioradialis"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "bicep-curl"
+    },
+    {
+      "id": "deadlift",
+      "name": "Deadlift",
+      "body_part": "back",
+      "muscle_groups": ["glutes", "hamstrings", "spinal erectors", "traps"],
+      "category": "compound",
+      "default_reference_lift": "deadlift",
+      "substitution_group": "deadlift-primary"
+    },
+    {
+      "id": "barbell-bench-press",
+      "name": "Barbell Bench Press",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps", "front delts"],
+      "category": "compound",
+      "default_reference_lift": "bench",
+      "substitution_group": "bench-primary"
+    },
+    {
+      "id": "hip-abduction",
+      "name": "Hip Abduction",
+      "body_part": "legs",
+      "muscle_groups": ["glutes", "hip abductors"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "glute-isolation"
+    },
+    {
+      "id": "weighted-pull-up",
+      "name": "Weighted Pull-Up",
+      "body_part": "back",
+      "muscle_groups": ["lats", "biceps", "rear delts"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "vertical-pull"
+    },
+    {
+      "id": "floor-press-close-grip",
+      "name": "Floor Press (Close-Grip)",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "bench-accessory"
+    },
+    {
+      "id": "standing-calf-raise",
+      "name": "Standing Calf Raise",
+      "body_part": "legs",
+      "muscle_groups": ["calves"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "calf-raise"
+    },
+    {
+      "id": "weighted-dip",
+      "name": "Weighted Dip",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps", "front delts"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "dip"
+    },
+    {
+      "id": "dumbbell-lateral-raise",
+      "name": "Dumbbell Lateral Raise",
+      "body_part": "shoulders",
+      "muscle_groups": ["lateral delts"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "lateral-raise"
+    },
+    {
+      "id": "lat-pull-over",
+      "name": "Lat Pull-Over",
+      "body_part": "back",
+      "muscle_groups": ["lats", "chest"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "lat-isolation"
+    },
+    {
+      "id": "incline-dumbbell-curl",
+      "name": "Incline Dumbbell Curl",
+      "body_part": "arms",
+      "muscle_groups": ["biceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "bicep-curl"
+    },
+    {
+      "id": "face-pull",
+      "name": "Face Pull",
+      "body_part": "shoulders",
+      "muscle_groups": ["rear delts", "upper traps", "rotator cuff"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "rear-delt"
+    },
+    {
+      "id": "pause-deadlift",
+      "name": "Pause Deadlift",
+      "body_part": "back",
+      "muscle_groups": ["glutes", "hamstrings", "spinal erectors"],
+      "category": "compound",
+      "default_reference_lift": "deadlift",
+      "substitution_group": "deadlift-variation"
+    },
+    {
+      "id": "pause-barbell-bench-press",
+      "name": "Pause Barbell Bench Press",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps", "front delts"],
+      "category": "compound",
+      "default_reference_lift": "bench",
+      "substitution_group": "bench-variation"
+    },
+    {
+      "id": "chest-supported-t-bar-row",
+      "name": "Chest-Supported T-Bar Row",
+      "body_part": "back",
+      "muscle_groups": ["lats", "rhomboids", "rear delts"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "row-primary"
+    },
+    {
+      "id": "barbell-hip-thrust",
+      "name": "Barbell Hip Thrust",
+      "body_part": "legs",
+      "muscle_groups": ["glutes", "hamstrings"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "hip-hinge-accessory"
+    },
+    {
+      "id": "dumbbell-shrug",
+      "name": "Dumbbell Shrug",
+      "body_part": "back",
+      "muscle_groups": ["upper traps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "shrug"
+    },
+    {
+      "id": "front-squat",
+      "name": "Front Squat",
+      "body_part": "legs",
+      "muscle_groups": ["quads", "glutes", "core"],
+      "category": "compound",
+      "default_reference_lift": "squat",
+      "substitution_group": "squat-variation"
+    },
+    {
+      "id": "pendlay-row",
+      "name": "Pendlay Row",
+      "body_part": "back",
+      "muscle_groups": ["lats", "rhomboids", "rear delts", "spinal erectors"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "row-primary"
+    },
+    {
+      "id": "chin-up",
+      "name": "Chin-Up",
+      "body_part": "back",
+      "muscle_groups": ["lats", "biceps"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "vertical-pull"
+    },
+    {
+      "id": "chest-supported-dumbbell-row",
+      "name": "Chest-Supported Dumbbell Row",
+      "body_part": "back",
+      "muscle_groups": ["lats", "rhomboids", "rear delts"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "row-primary"
+    },
+    {
+      "id": "triceps-pressdown",
+      "name": "Triceps Pressdown",
+      "body_part": "arms",
+      "muscle_groups": ["triceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "tricep-isolation"
+    },
+    {
+      "id": "sumo-box-squat-or-pause",
+      "name": "Sumo Box Squat or Pause",
+      "body_part": "legs",
+      "muscle_groups": ["quads", "glutes", "adductors"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "squat-accessory"
+    },
+    {
+      "id": "leg-curl",
+      "name": "Leg Curl",
+      "body_part": "legs",
+      "muscle_groups": ["hamstrings"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "hamstring-isolation"
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Hanging Leg Raise",
+      "body_part": "core",
+      "muscle_groups": ["abs", "hip flexors"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "ab-exercise"
+    },
+    {
+      "id": "flat-back-bench-press",
+      "name": "Flat-Back Bench Press",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps", "front delts"],
+      "category": "compound",
+      "default_reference_lift": "bench",
+      "substitution_group": "bench-variation"
+    },
+    {
+      "id": "overhead-press-or-push-press",
+      "name": "Overhead Press / Push Press",
+      "body_part": "shoulders",
+      "muscle_groups": ["front delts", "triceps"],
+      "category": "compound",
+      "default_reference_lift": "ohp",
+      "substitution_group": "ohp-variation"
+    },
+    {
+      "id": "concentration-bicep-curl",
+      "name": "Concentration Bicep Curl",
+      "body_part": "arms",
+      "muscle_groups": ["biceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "bicep-curl"
+    },
+    {
+      "id": "low-bar-back-squat",
+      "name": "Low-Bar Back Squat",
+      "body_part": "legs",
+      "muscle_groups": ["quads", "glutes", "hamstrings"],
+      "category": "compound",
+      "default_reference_lift": "squat",
+      "substitution_group": "squat-primary"
+    },
+    {
+      "id": "snatch-grip-romanian-deadlift",
+      "name": "Snatch-Grip Romanian Deadlift",
+      "body_part": "back",
+      "muscle_groups": ["hamstrings", "glutes", "upper back"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "hip-hinge-accessory"
+    },
+    {
+      "id": "leg-extension",
+      "name": "Leg Extension",
+      "body_part": "legs",
+      "muscle_groups": ["quads"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "quad-isolation"
+    },
+    {
+      "id": "banded-lateral-walk-or-hip-abduction",
+      "name": "Banded Lateral Walk or Hip Abduction",
+      "body_part": "legs",
+      "muscle_groups": ["glutes", "hip abductors"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "glute-isolation"
+    },
+    {
+      "id": "v-sit-up",
+      "name": "V Sit-Up",
+      "body_part": "core",
+      "muscle_groups": ["abs"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "ab-exercise"
+    },
+    {
+      "id": "neck-flexion-extension",
+      "name": "Neck Flexion/Extension",
+      "body_part": "neck",
+      "muscle_groups": ["neck"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "neck"
+    },
+    {
+      "id": "barbell-floor-press",
+      "name": "Barbell Floor Press",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "bench-accessory"
+    },
+    {
+      "id": "neutral-grip-pull-up",
+      "name": "Neutral-Grip Pull-Up",
+      "body_part": "back",
+      "muscle_groups": ["lats", "biceps"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "vertical-pull"
+    },
+    {
+      "id": "incline-dumbbell-row",
+      "name": "Incline Dumbbell Row",
+      "body_part": "back",
+      "muscle_groups": ["lats", "rhomboids", "rear delts"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "row-primary"
+    },
+    {
+      "id": "skull-crusher",
+      "name": "Skull Crusher",
+      "body_part": "arms",
+      "muscle_groups": ["triceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "tricep-isolation"
+    },
+    {
+      "id": "eccentric-accentuated-pull-up",
+      "name": "Eccentric-Accentuated Pull-Up",
+      "body_part": "back",
+      "muscle_groups": ["lats", "biceps"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "vertical-pull"
+    },
+    {
+      "id": "incline-swing",
+      "name": "Incline Swing",
+      "body_part": "back",
+      "muscle_groups": ["lats", "rear delts"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "lat-isolation"
+    },
+    {
+      "id": "bent-over-reverse-dumbbell-fly",
+      "name": "Bent-Over Reverse Dumbbell Fly",
+      "body_part": "shoulders",
+      "muscle_groups": ["rear delts"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "rear-delt"
+    },
+    {
+      "id": "barbell-or-ez-bar-curl",
+      "name": "Barbell or EZ Bar Curl",
+      "body_part": "arms",
+      "muscle_groups": ["biceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "bicep-curl"
+    },
+    {
+      "id": "dumbbell-incline-press",
+      "name": "Dumbbell Incline Press",
+      "body_part": "chest",
+      "muscle_groups": ["upper chest", "triceps", "front delts"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "bench-accessory"
+    },
+    {
+      "id": "single-arm-lat-pulldown",
+      "name": "Single-Arm Lat Pulldown",
+      "body_part": "back",
+      "muscle_groups": ["lats"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "lat-isolation"
+    },
+    {
+      "id": "deficit-push-up",
+      "name": "Deficit Push-Up",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps", "front delts"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "push-up"
+    },
+    {
+      "id": "upright-row",
+      "name": "Upright Row",
+      "body_part": "shoulders",
+      "muscle_groups": ["lateral delts", "upper traps"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "lateral-raise"
+    },
+    {
+      "id": "close-grip-bench-press-amrap",
+      "name": "Close-Grip Bench Press",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps"],
+      "category": "compound",
+      "default_reference_lift": "bench",
+      "substitution_group": "bench-secondary"
+    },
+    {
+      "id": "weighted-dip-or-push-up",
+      "name": "Weighted Dip or Push-Up",
+      "body_part": "chest",
+      "muscle_groups": ["chest", "triceps"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "dip"
+    },
+    {
+      "id": "face-pull-or-rear-delt-fly",
+      "name": "Face Pull or Rear-Delt Fly",
+      "body_part": "shoulders",
+      "muscle_groups": ["rear delts", "rotator cuff"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "rear-delt"
+    },
+    {
+      "id": "machine-or-cable-row",
+      "name": "Machine or Cable Row",
+      "body_part": "back",
+      "muscle_groups": ["lats", "rhomboids"],
+      "category": "compound",
+      "default_reference_lift": null,
+      "substitution_group": "row-primary"
+    },
+    {
+      "id": "single-arm-pulldown-or-pullover",
+      "name": "Single-Arm Pulldown or Pullover",
+      "body_part": "back",
+      "muscle_groups": ["lats"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "lat-isolation"
+    },
+    {
+      "id": "dumbbell-curl",
+      "name": "Dumbbell Curl",
+      "body_part": "arms",
+      "muscle_groups": ["biceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "bicep-curl"
+    },
+    {
+      "id": "lateral-raise",
+      "name": "Lateral Raise",
+      "body_part": "shoulders",
+      "muscle_groups": ["lateral delts"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "lateral-raise"
+    },
+    {
+      "id": "overhead-triceps-extension",
+      "name": "Overhead Triceps Extension",
+      "body_part": "arms",
+      "muscle_groups": ["triceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "tricep-isolation"
+    },
+    {
+      "id": "standing-calf-raise-pump",
+      "name": "Standing Calf Raise",
+      "body_part": "legs",
+      "muscle_groups": ["calves"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "calf-raise"
+    },
+    {
+      "id": "incline-curl",
+      "name": "Incline Curl",
+      "body_part": "arms",
+      "muscle_groups": ["biceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "bicep-curl"
+    },
+    {
+      "id": "wide-grip-cable-pushdown",
+      "name": "Wide-Grip Cable Pushdown",
+      "body_part": "arms",
+      "muscle_groups": ["triceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "tricep-isolation"
+    },
+    {
+      "id": "single-arm-tricep-pushdown",
+      "name": "Single-Arm Tricep Pushdown",
+      "body_part": "arms",
+      "muscle_groups": ["triceps"],
+      "category": "isolation",
+      "default_reference_lift": null,
+      "substitution_group": "tricep-isolation"
+    }
+  ]
+}
