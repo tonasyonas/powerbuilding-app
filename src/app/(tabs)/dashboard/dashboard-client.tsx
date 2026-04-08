@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BottomNav } from "@/components/bottom-nav";
+
 
 type WorkoutCard = {
   id: number;
@@ -214,7 +214,6 @@ export function DashboardClient({
         </div>
       </div>
 
-      <BottomNav />
     </div>
   );
 }

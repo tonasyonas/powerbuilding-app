@@ -1,6 +1,4 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+import { getUser, getProfile } from "@/utils/supabase/server";
 import { HistoryClient } from "./history-client";
 
 export type SetLogDetail = {
@@ -25,31 +23,14 @@ export type WorkoutLogEntry = {
 };
 
 export default async function HistoryPage() {
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
+  const [{ user, supabase }, profile] = await Promise.all([
+    getUser(),
+    getProfile(),
+  ]);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  // Fetch user profile for unit preference
-  const { data: profile } = await supabase
-    .from("user_profile")
-    .select("unit")
-    .eq("user_id", user.id)
-    .single();
-
-  const unit = profile?.unit ?? "kg";
-
-  // Fetch all completed workout logs with workout/week info
   const { data: logs } = await supabase
     .from("workout_log")
-    .select(
-      `
+    .select(`
       id,
       started_at,
       completed_at,
@@ -61,11 +42,12 @@ export default async function HistoryPage() {
           label
         )
       )
-    `
-    )
+    `)
     .eq("user_id", user.id)
     .not("completed_at", "is", null)
     .order("started_at", { ascending: false });
+
+  const unit = profile?.unit ?? "kg";
 
   if (!logs || logs.length === 0) {
     return <HistoryClient logs={[]} unit={unit} />;

@@ -1,6 +1,4 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+import { getUser, getProfile } from "@/utils/supabase/server";
 import { ProgressClient } from "./progress-client";
 
 export type E1RMDataPoint = {
@@ -40,31 +38,14 @@ function estimateE1RM(weight: number, reps: number): number | null {
 }
 
 export default async function ProgressPage() {
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
+  const [{ user, supabase }, profile] = await Promise.all([
+    getUser(),
+    getProfile(),
+  ]);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  // Fetch user profile for unit preference
-  const { data: profile } = await supabase
-    .from("user_profile")
-    .select("unit")
-    .eq("user_id", user.id)
-    .single();
-
-  const unit = profile?.unit ?? "kg";
-
-  // Fetch all completed workout logs
   const { data: workoutLogs } = await supabase
     .from("workout_log")
-    .select(
-      `
+    .select(`
       id,
       started_at,
       completed_at,
@@ -75,11 +56,12 @@ export default async function ProgressPage() {
           label
         )
       )
-    `
-    )
+    `)
     .eq("user_id", user.id)
     .not("completed_at", "is", null)
     .order("started_at", { ascending: true });
+
+  const unit = profile?.unit ?? "kg";
 
   if (!workoutLogs || workoutLogs.length === 0) {
     const emptyData: ProgressData = {
