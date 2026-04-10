@@ -588,7 +588,7 @@ export function WorkoutClient({
                   <button
                     type="button"
                     onClick={() => toggleNotes(ex.workoutExerciseId)}
-                    className="flex items-center gap-1 mt-2 text-xs text-muted cursor-pointer transition-colors duration-150 hover:text-zinc-300"
+                    className="flex items-center gap-1 mt-1 text-xs text-muted cursor-pointer transition-colors duration-150 hover:text-zinc-300"
                   >
                     <span>Notes</span>
                     {expandedNotes[ex.workoutExerciseId] ? (
@@ -599,7 +599,7 @@ export function WorkoutClient({
                   </button>
                 )}
                 {ex.notes && expandedNotes[ex.workoutExerciseId] && (
-                  <p className="mt-2 text-xs text-zinc-400 leading-relaxed bg-zinc-900/50 rounded-lg px-3 py-2">
+                  <p className="mt-1 text-xs text-zinc-400 leading-relaxed bg-zinc-900/50 rounded px-2 py-1.5">
                     {ex.notes}
                   </p>
                 )}
