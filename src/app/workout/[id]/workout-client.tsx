@@ -534,7 +534,7 @@ export function WorkoutClient({
       </header>
 
       {/* Exercise List */}
-      <main className="max-w-lg mx-auto px-5 pt-6 space-y-10">
+      <main className="max-w-lg mx-auto px-3 pt-6 space-y-10">
         {exercises.map((ex) => {
           const sets = setEntries[ex.workoutExerciseId] ?? [];
           const warmupSets = sets.filter((s) => s.setType === "warmup");
@@ -543,7 +543,7 @@ export function WorkoutClient({
           return (
             <section key={ex.workoutExerciseId}>
               {/* Exercise Header — top offset = page header h-12 (48) + py-4 (32) + border-b (1) = 81px */}
-              <div className="sticky top-[81px] z-30 bg-zinc-950 px-5 pt-4 pb-3 border-b border-border">
+              <div className="sticky top-[81px] z-30 bg-zinc-950 px-3 pt-4 pb-3 border-b border-border">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -606,7 +606,7 @@ export function WorkoutClient({
               </div>
 
               {/* Set rows */}
-              <div className="px-5 pb-4">
+              <div className="px-1 pb-4">
                 {/* Warmup sets */}
                 {warmupSets.length > 0 && (
                   <div className="mb-3">
@@ -754,7 +754,7 @@ function SetRow({
 
   return (
     <div
-      className={`flex items-center gap-2 rounded-lg px-3 py-2 transition-colors duration-150 ${
+      className={`flex items-center gap-1.5 rounded-lg px-2 py-2 transition-colors duration-150 ${
         set.completed
           ? "bg-success/10"
           : isWarmup
@@ -764,7 +764,7 @@ function SetRow({
     >
       {/* Set label */}
       <span
-        className={`shrink-0 w-12 text-xs font-mono font-medium ${
+        className={`shrink-0 w-10 text-xs font-mono font-medium ${
           isWarmup ? "text-zinc-600" : "text-zinc-400"
         }`}
       >
@@ -772,7 +772,7 @@ function SetRow({
       </span>
 
       {/* Target info (small) */}
-      <span className="shrink-0 w-16 text-[11px] text-zinc-500 font-mono truncate text-center">
+      <span className="shrink-0 w-14 text-[11px] text-zinc-500 font-mono truncate text-center">
         {set.targetWeight !== null
           ? `${set.targetWeight} ${unit}`
           : "-"}
@@ -785,7 +785,7 @@ function SetRow({
         placeholder={unit}
         value={set.actualWeight}
         onChange={(e) => onUpdateSet(weId, index, "actualWeight", e.target.value)}
-        className={`w-20 rounded-lg border border-border bg-zinc-950 px-3 py-2.5 font-mono text-base text-center text-zinc-100 placeholder-zinc-700 focus:outline-none focus:ring-2 focus:ring-accent transition-colors duration-150 ${
+        className={`flex-1 min-w-0 rounded-lg border border-border bg-zinc-950 px-2 py-2.5 font-mono text-base text-center text-zinc-100 placeholder-zinc-700 focus:outline-none focus:ring-2 focus:ring-accent transition-colors duration-150 ${
           isWarmup ? "opacity-70" : ""
         }`}
       />
@@ -797,7 +797,7 @@ function SetRow({
         placeholder="reps"
         value={set.actualReps}
         onChange={(e) => onUpdateSet(weId, index, "actualReps", e.target.value)}
-        className={`w-16 rounded-lg border border-border bg-zinc-950 px-3 py-2.5 font-mono text-base text-center text-zinc-100 placeholder-zinc-700 focus:outline-none focus:ring-2 focus:ring-accent transition-colors duration-150 ${
+        className={`flex-1 min-w-0 rounded-lg border border-border bg-zinc-950 px-2 py-2.5 font-mono text-base text-center text-zinc-100 placeholder-zinc-700 focus:outline-none focus:ring-2 focus:ring-accent transition-colors duration-150 ${
           isWarmup ? "opacity-70" : ""
         }`}
       />
@@ -806,7 +806,7 @@ function SetRow({
       <button
         type="button"
         onClick={() => onToggleComplete(weId, index, exercise)}
-        className={`shrink-0 flex items-center justify-center w-12 h-12 rounded-lg cursor-pointer transition-all duration-150 ${
+        className={`shrink-0 flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer transition-all duration-150 ${
           set.completed
             ? "bg-success text-white"
             : "bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300"
