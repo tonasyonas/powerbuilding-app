@@ -606,7 +606,7 @@ export function WorkoutClient({
               </div>
 
               {/* Set rows */}
-              <div className="px-3 pt-2 pb-4">
+              <div className="px-1 pt-2 pb-4">
                 {/* Warmup sets */}
                 {warmupSets.length > 0 && (
                   <div className="mb-3">
