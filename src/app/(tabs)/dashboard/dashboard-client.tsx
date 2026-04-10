@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useHaptics } from "@/hooks/use-haptics";
 
 
 type WorkoutCard = {
@@ -91,6 +92,7 @@ export function DashboardClient({
   isCurrentWeek,
 }: DashboardClientProps) {
   const router = useRouter();
+  const haptics = useHaptics();
 
   return (
     <div className="min-h-dvh bg-zinc-950 pb-24">
@@ -116,6 +118,7 @@ export function DashboardClient({
             <Link
               key={card.id}
               href={`/workout/${card.id}`}
+              onClick={() => haptics.tap()}
               className={`block rounded-xl border bg-card p-4 cursor-pointer transition-all duration-150 hover:bg-card-hover ${
                 card.status === "up-next"
                   ? "border-l-4 border-l-accent border-t-border border-r-border border-b-border shadow-lg shadow-accent/5"
@@ -179,10 +182,7 @@ export function DashboardClient({
           <button
             type="button"
             disabled={!prevWeekId}
-            onClick={() =>
-              prevWeekId &&
-              router.push(`/dashboard?week=${prevWeekId}`)
-            }
+            onClick={() => { if (prevWeekId) { haptics.tap(); router.push(`/dashboard?week=${prevWeekId}`); } }}
             className="flex items-center gap-1 text-sm text-muted cursor-pointer transition-colors duration-150 hover:text-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed min-h-[48px] px-2"
           >
             <ChevronLeftIcon />
@@ -192,7 +192,7 @@ export function DashboardClient({
           {!isCurrentWeek && (
             <button
               type="button"
-              onClick={() => router.push("/dashboard")}
+              onClick={() => { haptics.tap(); router.push("/dashboard"); }}
               className="text-xs font-medium text-accent cursor-pointer transition-colors duration-150 hover:text-accent-hover min-h-[48px] px-3 flex items-center"
             >
               Current Week
@@ -202,10 +202,7 @@ export function DashboardClient({
           <button
             type="button"
             disabled={!nextWeekId}
-            onClick={() =>
-              nextWeekId &&
-              router.push(`/dashboard?week=${nextWeekId}`)
-            }
+            onClick={() => { if (nextWeekId) { haptics.tap(); router.push(`/dashboard?week=${nextWeekId}`); } }}
             className="flex items-center gap-1 text-sm text-muted cursor-pointer transition-colors duration-150 hover:text-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed min-h-[48px] px-2"
           >
             <span>Next</span>
