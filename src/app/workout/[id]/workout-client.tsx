@@ -543,7 +543,7 @@ export function WorkoutClient({
           return (
             <section key={ex.workoutExerciseId}>
               {/* Exercise Header — top offset = page header h-12 (48) + py-4 (32) + border-b (1) = 81px */}
-              <div className="sticky top-[81px] z-30 bg-zinc-950 px-3 pt-4 pb-3 border-b border-border">
+              <div className="sticky top-[81px] z-30 bg-zinc-950 px-3 pt-2 pb-2 border-b border-border">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -557,7 +557,7 @@ export function WorkoutClient({
                         {ex.name}
                       </h2>
                     </div>
-                    <div className="flex items-center gap-2 mt-1.5">
+                    <div className="flex items-center gap-2 mt-1">
                       <span className="inline-block rounded-full bg-zinc-800 px-2.5 py-0.5 text-[11px] font-medium text-zinc-400 capitalize">
                         {ex.bodyPart}
                       </span>
@@ -606,7 +606,7 @@ export function WorkoutClient({
               </div>
 
               {/* Set rows */}
-              <div className="px-3 pt-4 pb-4">
+              <div className="px-3 pt-2 pb-4">
                 {/* Warmup sets */}
                 {warmupSets.length > 0 && (
                   <div className="mb-3">
