@@ -338,6 +338,7 @@ export function WorkoutClient({
 
   // Rest timer state — timestamp-based so it survives background throttling
   const [restEndTime, setRestEndTime] = useState<number | null>(null);
+  const restEndTimeRef = useRef<number | null>(null);
   const [restDuration, setRestDuration] = useState<number>(0);
   const [restRemaining, setRestRemaining] = useState<number | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -385,22 +386,26 @@ export function WorkoutClient({
 
       setRestDuration(duration);
       setRestEndTime(endTime);
+      restEndTimeRef.current = endTime;
       setRestRemaining(duration);
 
       requestNotificationPermission();
       scheduleNotification(duration);
 
       timerRef.current = setInterval(() => {
-        const remaining = Math.round((endTime - Date.now()) / 1000);
+        const end = restEndTimeRef.current;
+        if (end === null) return;
+        const remaining = Math.round((end - Date.now()) / 1000);
         if (remaining <= 0) {
           if (timerRef.current) clearInterval(timerRef.current);
           haptics.alert();
           setRestEndTime(null);
+          restEndTimeRef.current = null;
           setRestRemaining(null);
         } else {
           setRestRemaining(remaining);
         }
-      }, 250); // Tick fast to catch up after background
+      }, 250);
     },
     [haptics, requestNotificationPermission, scheduleNotification]
   );
@@ -410,22 +415,33 @@ export function WorkoutClient({
     if (timerRef.current) clearInterval(timerRef.current);
     cancelNotification();
     setRestEndTime(null);
+    restEndTimeRef.current = null;
     setRestRemaining(null);
   }, [haptics, cancelNotification]);
 
   const adjustTimer = useCallback(
     (delta: number) => {
       haptics.tap();
-      setRestEndTime((prev) => {
-        if (prev === null) return null;
-        const newEnd = prev + delta * 1000;
-        const remaining = Math.round((newEnd - Date.now()) / 1000);
-        if (remaining < 1) return Date.now() + 1000;
-        // Reschedule notification for new remaining time
-        cancelNotification();
-        scheduleNotification(remaining);
-        return newEnd;
-      });
+      const prev = restEndTimeRef.current;
+      if (prev === null) return;
+
+      const newEnd = prev + delta * 1000;
+      const remaining = Math.round((newEnd - Date.now()) / 1000);
+
+      if (remaining < 1) {
+        const clamped = Date.now() + 1000;
+        restEndTimeRef.current = clamped;
+        setRestEndTime(clamped);
+        setRestRemaining(1);
+      } else {
+        restEndTimeRef.current = newEnd;
+        setRestEndTime(newEnd);
+        setRestRemaining(remaining);
+      }
+
+      cancelNotification();
+      scheduleNotification(remaining < 1 ? 1 : remaining);
+
       setRestDuration((prev) => {
         const next = prev + delta;
         return next < 1 ? 1 : next;
@@ -437,12 +453,14 @@ export function WorkoutClient({
   // Recalculate on visibility change (user returns to app)
   useEffect(() => {
     function handleVisibility() {
-      if (document.visibilityState === "visible" && restEndTime !== null) {
-        const remaining = Math.round((restEndTime - Date.now()) / 1000);
+      const end = restEndTimeRef.current;
+      if (document.visibilityState === "visible" && end !== null) {
+        const remaining = Math.round((end - Date.now()) / 1000);
         if (remaining <= 0) {
           if (timerRef.current) clearInterval(timerRef.current);
           haptics.alert();
           setRestEndTime(null);
+          restEndTimeRef.current = null;
           setRestRemaining(null);
         } else {
           setRestRemaining(remaining);
