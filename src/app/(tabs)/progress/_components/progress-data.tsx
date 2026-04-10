@@ -1,4 +1,4 @@
-import { getUser } from "@/utils/supabase/server";
+import { getUser, getProfile } from "@/utils/supabase/server";
 import { ProgressClient } from "../progress-client";
 import {
   estimateE1RM,
@@ -8,12 +8,12 @@ import {
   type WeeklyVolumePoint,
 } from "../types";
 
-interface ProgressDataProps {
-  unit: string;
-}
-
-export async function ProgressData({ unit }: ProgressDataProps) {
-  const { user, supabase } = await getUser();
+export async function ProgressData() {
+  const [{ user, supabase }, profile] = await Promise.all([
+    getUser(),
+    getProfile(),
+  ]);
+  const unit = profile?.unit ?? "kg";
 
   const { data: workoutLogs } = await supabase
     .from("workout_log")
