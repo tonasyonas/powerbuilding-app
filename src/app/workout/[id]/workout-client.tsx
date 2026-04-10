@@ -535,7 +535,7 @@ export function WorkoutClient({
 
           return (
             <section key={ex.workoutExerciseId}>
-              {/* Exercise Header */}
+              {/* Exercise Header — top offset = page header h-12 (48) + py-4 (32) + border-b (1) = 81px */}
               <div className="sticky top-[81px] z-30 bg-zinc-950 px-5 pt-4 pb-3 border-b border-border">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
