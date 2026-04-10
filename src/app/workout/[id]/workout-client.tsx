@@ -527,19 +527,16 @@ export function WorkoutClient({
       </header>
 
       {/* Exercise List */}
-      <main className="max-w-lg mx-auto px-5 pt-6 space-y-5">
+      <main className="max-w-lg mx-auto px-5 pt-6 space-y-10">
         {exercises.map((ex) => {
           const sets = setEntries[ex.workoutExerciseId] ?? [];
           const warmupSets = sets.filter((s) => s.setType === "warmup");
           const workingSets = sets.filter((s) => s.setType === "working");
 
           return (
-            <section
-              key={ex.workoutExerciseId}
-              className="rounded-xl border border-border bg-card overflow-hidden"
-            >
-              {/* Exercise Header */}
-              <div className="px-4 pt-4 pb-3">
+            <section key={ex.workoutExerciseId}>
+              {/* Exercise Header — top offset = page header h-12 (48) + py-4 (32) + border-b (1) = 81px */}
+              <div className="sticky top-[81px] z-30 bg-zinc-950 px-5 pt-4 pb-3 border-b border-border">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -602,7 +599,7 @@ export function WorkoutClient({
               </div>
 
               {/* Set rows */}
-              <div className="px-4 pb-4">
+              <div className="px-5 pb-4">
                 {/* Warmup sets */}
                 {warmupSets.length > 0 && (
                   <div className="mb-3">
