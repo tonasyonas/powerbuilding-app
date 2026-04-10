@@ -536,7 +536,7 @@ export function WorkoutClient({
           return (
             <section key={ex.workoutExerciseId}>
               {/* Exercise Header */}
-              <div className="px-4 pt-4 pb-3">
+              <div className="sticky top-[68px] z-30 bg-zinc-950 px-5 pt-4 pb-3 border-b border-border">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
