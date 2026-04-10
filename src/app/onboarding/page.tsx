@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { useHaptics } from "@/hooks/use-haptics";
 
 const LIFTS = [
   { key: "squat_1rm", label: "Squat" },
@@ -24,6 +25,7 @@ export default function OnboardingPage() {
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const haptics = useHaptics();
 
   function updateMax(key: keyof typeof maxes, value: string) {
     setMaxes((prev) => ({ ...prev, [key]: value }));
@@ -43,6 +45,7 @@ export default function OnboardingPage() {
     }
 
     setLoading(true);
+    haptics.heavy();
 
     try {
       const {
@@ -113,7 +116,10 @@ export default function OnboardingPage() {
           <div className="flex rounded-lg overflow-hidden border border-border">
             <button
               type="button"
-              onClick={() => setUnit("kg")}
+              onClick={() => {
+                if (unit !== "kg") haptics.tap();
+                setUnit("kg");
+              }}
               className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
                 unit === "kg"
                   ? "bg-accent text-white"
@@ -124,7 +130,10 @@ export default function OnboardingPage() {
             </button>
             <button
               type="button"
-              onClick={() => setUnit("lbs")}
+              onClick={() => {
+                if (unit !== "lbs") haptics.tap();
+                setUnit("lbs");
+              }}
               className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
                 unit === "lbs"
                   ? "bg-accent text-white"
