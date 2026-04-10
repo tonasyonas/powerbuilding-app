@@ -1,8 +1,9 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function Home() {
+async function AuthRedirect() {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
 
@@ -26,4 +27,13 @@ export default async function Home() {
   }
 
   redirect("/dashboard");
+  return null;
+}
+
+export default function Home() {
+  return (
+    <Suspense>
+      <AuthRedirect />
+    </Suspense>
+  );
 }
