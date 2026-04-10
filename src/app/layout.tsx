@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Barlow, JetBrains_Mono } from "next/font/google";
+import { NotificationPrompt } from "@/components/notification-prompt";
 import "./globals.css";
 
 const barlowCondensed = Barlow_Condensed({
@@ -50,6 +51,7 @@ export default function RootLayout({
       className={`${barlowCondensed.variable} ${barlow.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="min-h-dvh bg-zinc-950 text-zinc-100 antialiased font-body">
+        <NotificationPrompt />
         {children}
       </body>
     </html>
