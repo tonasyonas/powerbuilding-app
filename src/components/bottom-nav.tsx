@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useHaptics } from "@/hooks/use-haptics";
 
 const NAV_ITEMS = [
   {
@@ -83,6 +84,7 @@ const NAV_ITEMS = [
 
 export function BottomNav() {
   const pathname = usePathname();
+  const haptics = useHaptics();
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-zinc-950/95 backdrop-blur-sm">
@@ -93,6 +95,9 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => {
+                if (!isActive) haptics.tap();
+              }}
               className={`flex flex-col items-center justify-center gap-1 py-2 px-3 min-h-[48px] min-w-[48px] cursor-pointer transition-colors duration-150 ${
                 isActive ? "text-accent" : "text-muted"
               }`}
