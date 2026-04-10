@@ -1,13 +1,13 @@
-import { getUser } from "@/utils/supabase/server";
+import { getUser, getProfile } from "@/utils/supabase/server";
 import { HistoryClient } from "../history-client";
 import type { SetLogDetail, WorkoutLogEntry } from "../types";
 
-interface HistoryDataProps {
-  unit: string;
-}
-
-export async function HistoryData({ unit }: HistoryDataProps) {
-  const { user, supabase } = await getUser();
+export async function HistoryData() {
+  const [{ user, supabase }, profile] = await Promise.all([
+    getUser(),
+    getProfile(),
+  ]);
+  const unit = profile?.unit ?? "kg";
 
   const { data: logs } = await supabase
     .from("workout_log")
