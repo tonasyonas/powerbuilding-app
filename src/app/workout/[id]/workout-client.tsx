@@ -378,6 +378,22 @@ export function WorkoutClient({
     setRestTimer(null);
   }, [haptics]);
 
+  const adjustTimer = useCallback(
+    (delta: number) => {
+      haptics.tap();
+      setRestTimer((prev) => {
+        if (prev === null) return null;
+        const next = prev + delta;
+        return next < 1 ? 1 : next;
+      });
+      setRestDuration((prev) => {
+        const next = prev + delta;
+        return next < 1 ? 1 : next;
+      });
+    },
+    [haptics]
+  );
+
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -663,53 +679,62 @@ export function WorkoutClient({
         })}
       </main>
 
-      {/* Rest Timer Bar */}
-      {restTimer !== null && (
-        <div
-          className="fixed bottom-0 left-0 right-0 z-50 cursor-pointer"
-          onClick={dismissTimer}
-        >
-          {/* Timer progress background */}
-          <div className="relative bg-zinc-900 border-t border-border">
-            <div
-              className="absolute inset-0 bg-accent/20 transition-all duration-1000 ease-linear"
-              style={{
-                width:
-                  restDuration > 0
-                    ? `${(restTimer / restDuration) * 100}%`
-                    : "0%",
-              }}
-            />
-            <div className="relative max-w-lg mx-auto px-5 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-accent">
-                  <TimerIcon />
-                </span>
-                <span className="text-sm font-medium text-zinc-300">
-                  Rest Timer
-                </span>
-              </div>
-              <span className="font-mono text-2xl font-bold text-zinc-100">
-                {formatTime(restTimer)}
-              </span>
-              <span className="text-xs text-zinc-500">tap to dismiss</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Finish Workout Button */}
+      {/* Bottom Bar — timer or finish button, never both */}
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/95 backdrop-blur-sm border-t border-border">
-        {restTimer !== null && <div className="h-16" />}
-        <div className="max-w-lg mx-auto px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-          <button
-            type="button"
-            disabled={totalCompletedWorkingSets === 0 || isSaving}
-            onClick={finishWorkout}
-            className="w-full rounded-xl bg-accent py-4 text-base font-display font-bold tracking-wider text-white uppercase cursor-pointer transition-all duration-150 hover:bg-accent-hover active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
-          >
-            {isSaving ? "Saving..." : "Finish Workout"}
-          </button>
+        <div className="max-w-lg mx-auto px-5 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+          {restTimer !== null ? (
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => adjustTimer(-15)}
+                className="shrink-0 flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-800 text-sm font-mono font-bold text-zinc-300 cursor-pointer transition-colors duration-150 hover:bg-zinc-700 active:scale-95"
+              >
+                -15
+              </button>
+              <div className="flex-1 relative overflow-hidden rounded-lg bg-zinc-900 h-12">
+                <div
+                  className="absolute inset-0 bg-accent/20 transition-all duration-1000 ease-linear"
+                  style={{
+                    width:
+                      restDuration > 0
+                        ? `${(restTimer / restDuration) * 100}%`
+                        : "0%",
+                  }}
+                />
+                <div className="relative flex items-center justify-center h-full gap-2">
+                  <span className="text-accent">
+                    <TimerIcon />
+                  </span>
+                  <span className="font-mono text-2xl font-bold text-zinc-100">
+                    {formatTime(restTimer)}
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => adjustTimer(15)}
+                className="shrink-0 flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-800 text-sm font-mono font-bold text-zinc-300 cursor-pointer transition-colors duration-150 hover:bg-zinc-700 active:scale-95"
+              >
+                +15
+              </button>
+              <button
+                type="button"
+                onClick={dismissTimer}
+                className="shrink-0 flex items-center justify-center h-12 px-4 rounded-lg bg-accent text-sm font-bold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover active:scale-95"
+              >
+                Skip
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              disabled={totalCompletedWorkingSets === 0 || isSaving}
+              onClick={finishWorkout}
+              className="w-full rounded-xl bg-accent py-4 text-base font-display font-bold tracking-wider text-white uppercase cursor-pointer transition-all duration-150 hover:bg-accent-hover active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
+            >
+              {isSaving ? "Saving..." : "Finish Workout"}
+            </button>
+          )}
         </div>
       </div>
     </div>
