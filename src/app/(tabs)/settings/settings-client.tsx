@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { useHaptics } from "@/hooks/use-haptics";
 
 
 type Week = {
@@ -44,6 +45,7 @@ type SavedField = "profile" | "maxes" | "preferences" | "week" | null;
 export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
   const router = useRouter();
   const supabase = createClient();
+  const haptics = useHaptics();
 
   // Profile
   const [displayName, setDisplayName] = useState(profile.display_name ?? "");
@@ -107,6 +109,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
     if (err) {
       showError(err.message);
     } else {
+      haptics.success();
       setSavedField("profile");
     }
   }
@@ -136,6 +139,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
     if (err) {
       showError(err.message);
     } else {
+      haptics.success();
       setSavedField("maxes");
     }
   }
@@ -157,6 +161,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
     if (err) {
       showError(err.message);
     } else {
+      haptics.success();
       setSavedField("preferences");
     }
   }
@@ -174,6 +179,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
     if (err) {
       showError(err.message);
     } else {
+      haptics.success();
       setSavedField("week");
     }
   }
@@ -418,7 +424,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                 <div className="flex rounded-lg overflow-hidden border border-border">
                   <button
                     type="button"
-                    onClick={() => setUnit("kg")}
+                    onClick={() => { if (unit !== "kg") haptics.tap(); setUnit("kg"); }}
                     className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
                       unit === "kg"
                         ? "bg-accent text-white"
@@ -429,7 +435,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setUnit("lbs")}
+                    onClick={() => { if (unit !== "lbs") haptics.tap(); setUnit("lbs"); }}
                     className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
                       unit === "lbs"
                         ? "bg-accent text-white"
@@ -470,7 +476,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                 <div className="flex rounded-lg overflow-hidden border border-border">
                   <button
                     type="button"
-                    onClick={() => setWeek10Variant("A")}
+                    onClick={() => { if (week10Variant !== "A") haptics.tap(); setWeek10Variant("A"); }}
                     className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
                       week10Variant === "A"
                         ? "bg-accent text-white"
@@ -481,7 +487,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setWeek10Variant("B")}
+                    onClick={() => { if (week10Variant !== "B") haptics.tap(); setWeek10Variant("B"); }}
                     className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
                       week10Variant === "B"
                         ? "bg-accent text-white"
@@ -520,7 +526,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                     type="button"
                     role="switch"
                     aria-checked={deloadFirst}
-                    onClick={() => setDeloadFirst((prev) => !prev)}
+                    onClick={() => { haptics.tap(); setDeloadFirst((prev) => !prev); }}
                     className={`relative shrink-0 h-7 w-12 rounded-full cursor-pointer transition-colors duration-150 ${
                       deloadFirst ? "bg-accent" : "bg-zinc-700"
                     }`}
@@ -598,7 +604,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                   <div className="flex gap-3">
                     <button
                       type="button"
-                      onClick={resetToWeek1}
+                      onClick={() => { haptics.warning(); resetToWeek1(); }}
                       disabled={saving}
                       className="flex-1 rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover disabled:opacity-50"
                     >
@@ -624,7 +630,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
             </h2>
             <button
               type="button"
-              onClick={handleSignOut}
+              onClick={() => { haptics.tap(); handleSignOut(); }}
               className="w-full rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer transition-colors duration-150 hover:text-zinc-100 hover:border-zinc-500"
             >
               Sign Out
@@ -639,7 +645,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
             <div className="space-y-3">
               <button
                 type="button"
-                onClick={handleExport}
+                onClick={() => { haptics.tap(); handleExport(); }}
                 disabled={exporting}
                 className="w-full rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer transition-colors duration-150 hover:text-zinc-100 hover:border-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -670,7 +676,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                   <div className="flex gap-3">
                     <button
                       type="button"
-                      onClick={handleWipe}
+                      onClick={() => { haptics.warning(); handleWipe(); }}
                       disabled={wiping}
                       className="flex-1 rounded-lg bg-red-600 py-3 text-sm font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-red-500 disabled:opacity-50"
                     >
