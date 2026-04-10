@@ -527,7 +527,7 @@ export function WorkoutClient({
       </header>
 
       {/* Exercise List */}
-      <main className="max-w-lg mx-auto px-5 pt-6 space-y-5">
+      <main className="max-w-lg mx-auto px-5 pt-6 space-y-10">
         {exercises.map((ex) => {
           const sets = setEntries[ex.workoutExerciseId] ?? [];
           const warmupSets = sets.filter((s) => s.setType === "warmup");
@@ -536,7 +536,7 @@ export function WorkoutClient({
           return (
             <section
               key={ex.workoutExerciseId}
-              className="rounded-xl border border-border bg-card overflow-hidden"
+              className=""
             >
               {/* Exercise Header */}
               <div className="px-4 pt-4 pb-3">
