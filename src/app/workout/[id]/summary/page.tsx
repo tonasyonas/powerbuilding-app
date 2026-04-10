@@ -1,8 +1,8 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/utils/supabase/server";
+import { getUser, getProfile } from "@/utils/supabase/server";
 import { SummaryHaptics } from "./summary-haptics";
+import { advanceWeekIfComplete } from "./actions";
 
 function TrophyIcon() {
   return (
@@ -44,18 +44,12 @@ export default async function WorkoutSummaryPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
+  const [{ user, supabase }, profile] = await Promise.all([
+    getUser(),
+    getProfile(),
+  ]);
   const { id } = await params;
   const workoutId = Number(id);
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
 
   // Fetch workout info
   const { data: workout } = await supabase
@@ -104,63 +98,12 @@ export default async function WorkoutSummaryPage({
       ? formatDuration(workoutLog.started_at, workoutLog.completed_at)
       : "-";
 
-  // Fetch user profile for unit
-  const { data: profile } = await supabase
-    .from("user_profile")
-    .select("unit, current_week_id")
-    .eq("user_id", user.id)
-    .single();
-
   const unit = profile?.unit ?? "kg";
 
-  // Check if all 4 days of the week are complete for auto-advance
-  const { data: weekWorkouts } = await supabase
-    .from("workout")
-    .select("id")
-    .eq("week_id", workout.week_id);
-
-  const weekWorkoutIds = (weekWorkouts ?? []).map((w) => w.id);
-
-  const { data: completedLogs } = await supabase
-    .from("workout_log")
-    .select("workout_id")
-    .eq("user_id", user.id)
-    .in("workout_id", weekWorkoutIds.length > 0 ? weekWorkoutIds : [-1])
-    .not("completed_at", "is", null);
-
-  const completedWorkoutIds = new Set(
-    (completedLogs ?? []).map((l) => l.workout_id)
-  );
-
-  const allDaysComplete =
-    weekWorkoutIds.length > 0 &&
-    weekWorkoutIds.every((id) => completedWorkoutIds.has(id));
-
-  // Auto-advance week if all days complete
-  if (allDaysComplete && profile) {
-    // Find the next week
-    const { data: currentWeek } = await supabase
-      .from("week")
-      .select("week_number")
-      .eq("id", workout.week_id)
-      .single();
-
-    if (currentWeek) {
-      const { data: nextWeek } = await supabase
-        .from("week")
-        .select("id")
-        .eq("week_number", currentWeek.week_number + 1)
-        .limit(1)
-        .single();
-
-      if (nextWeek && profile.current_week_id === workout.week_id) {
-        await supabase
-          .from("user_profile")
-          .update({ current_week_id: nextWeek.id })
-          .eq("user_id", user.id);
-      }
-    }
-  }
+  // Auto-advance week if all days complete (via server action)
+  const allDaysComplete = profile
+    ? await advanceWeekIfComplete(user.id, workout.week_id, profile.current_week_id)
+    : false;
 
   // Format volume
   const volumeDisplay =

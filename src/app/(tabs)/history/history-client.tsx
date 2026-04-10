@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useHaptics } from "@/hooks/use-haptics";
 
-import type { WorkoutLogEntry, SetLogDetail } from "./page";
+import type { WorkoutLogEntry, SetLogDetail } from "./types";
 
 type HistoryClientProps = {
   logs: WorkoutLogEntry[];

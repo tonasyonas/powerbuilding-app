@@ -4,7 +4,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useHaptics } from "@/hooks/use-haptics";
 
-import type { ProgressData } from "./page";
+import type { ProgressData } from "./types";
 
 // Lazy-load Recharts components to keep bundle small
 const ResponsiveContainer = dynamic(
