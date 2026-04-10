@@ -345,6 +345,7 @@ export function WorkoutClient({
   const [restRemaining, setRestRemaining] = useState<number | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const notifTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const wakeLockRef = useRef<WakeLockSentinel | null>(null);
 
   // Saving state
   const [isSaving, setIsSaving] = useState(false);
@@ -374,6 +375,24 @@ export function WorkoutClient({
     if (notifTimeoutRef.current) clearTimeout(notifTimeoutRef.current);
   }, []);
 
+  // Wake Lock — keeps screen on during rest timer so iOS doesn't kill the app
+  const acquireWakeLock = useCallback(async () => {
+    try {
+      if ("wakeLock" in navigator) {
+        wakeLockRef.current = await navigator.wakeLock.request("screen");
+      }
+    } catch {
+      // Wake Lock not supported or failed — ignore
+    }
+  }, []);
+
+  const releaseWakeLock = useCallback(() => {
+    if (wakeLockRef.current) {
+      wakeLockRef.current.release();
+      wakeLockRef.current = null;
+    }
+  }, []);
+
   // -----------------------------------------------------------------------
   // Rest timer logic — uses end timestamp, recalculates on every tick
   // -----------------------------------------------------------------------
@@ -393,6 +412,7 @@ export function WorkoutClient({
 
       requestNotificationPermission();
       scheduleNotification(duration);
+      acquireWakeLock();
 
       timerRef.current = setInterval(() => {
         const end = restEndTimeRef.current;
@@ -402,6 +422,7 @@ export function WorkoutClient({
           if (timerRef.current) clearInterval(timerRef.current);
           haptics.alert();
           playTimerSound();
+          releaseWakeLock();
           setRestEndTime(null);
           restEndTimeRef.current = null;
           setRestRemaining(null);
@@ -410,17 +431,18 @@ export function WorkoutClient({
         }
       }, 250);
     },
-    [haptics, requestNotificationPermission, scheduleNotification]
+    [haptics, requestNotificationPermission, scheduleNotification, acquireWakeLock, releaseWakeLock]
   );
 
   const dismissTimer = useCallback(() => {
     haptics.tap();
     if (timerRef.current) clearInterval(timerRef.current);
     cancelNotification();
+    releaseWakeLock();
     setRestEndTime(null);
     restEndTimeRef.current = null;
     setRestRemaining(null);
-  }, [haptics, cancelNotification]);
+  }, [haptics, cancelNotification, releaseWakeLock]);
 
   const adjustTimer = useCallback(
     (delta: number) => {
@@ -463,6 +485,7 @@ export function WorkoutClient({
           if (timerRef.current) clearInterval(timerRef.current);
           haptics.alert();
           playTimerSound();
+          releaseWakeLock();
           setRestEndTime(null);
           restEndTimeRef.current = null;
           setRestRemaining(null);
@@ -473,12 +496,13 @@ export function WorkoutClient({
     }
     document.addEventListener("visibilitychange", handleVisibility);
     return () => document.removeEventListener("visibilitychange", handleVisibility);
-  }, [restEndTime, haptics]);
+  }, [restEndTime, haptics, releaseWakeLock]);
 
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
       if (notifTimeoutRef.current) clearTimeout(notifTimeoutRef.current);
+      if (wakeLockRef.current) wakeLockRef.current.release();
     };
   }, []);
 
