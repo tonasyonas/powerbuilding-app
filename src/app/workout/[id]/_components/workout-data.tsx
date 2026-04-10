@@ -1,14 +1,9 @@
 import { redirect } from "next/navigation";
 import { getUser, getProfile } from "@/utils/supabase/server";
-import {
-  getCachedWorkout,
-  getCachedWeek,
-  getCachedWorkoutExercises,
-} from "@/utils/cached-queries";
 import { WorkoutClient } from "../workout-client";
 
 export async function WorkoutData({ workoutId }: { workoutId: number }) {
-  const { user } = await getUser();
+  const { supabase, user } = await getUser();
 
   // Fetch user profile
   const profile = await getProfile();
@@ -16,17 +11,60 @@ export async function WorkoutData({ workoutId }: { workoutId: number }) {
     redirect("/onboarding");
   }
 
-  // Program data — cached across requests (static seed data)
-  const workout = await getCachedWorkout(workoutId);
+  // Fetch workout details
+  const { data: workout } = await supabase
+    .from("workout")
+    .select("*")
+    .eq("id", workoutId)
+    .single();
 
   if (!workout) {
     redirect("/dashboard");
   }
 
-  const [week, workoutExercises] = await Promise.all([
-    getCachedWeek(workout.week_id),
-    getCachedWorkoutExercises(workoutId),
-  ]);
+  // Fetch parent week for header label
+  const { data: week } = await supabase
+    .from("week")
+    .select("*")
+    .eq("id", workout.week_id)
+    .single();
+
+  // Fetch workout exercises joined with exercise data, ordered by `order`
+  const { data: workoutExercises } = await supabase
+    .from("workout_exercise")
+    .select(
+      `
+      id,
+      exercise_id,
+      order,
+      warmup_sets,
+      working_sets,
+      set_type,
+      reps_min,
+      reps_max,
+      is_amrap,
+      percent_1rm_min,
+      percent_1rm_max,
+      reference_lift,
+      rpe,
+      rest_min_seconds,
+      rest_max_seconds,
+      superset_group,
+      superset_order,
+      notes,
+      is_optional,
+      exercise:exercise_id (
+        id,
+        name,
+        body_part,
+        category,
+        muscle_groups,
+        default_reference_lift
+      )
+    `
+    )
+    .eq("workout_id", workoutId)
+    .order("order", { ascending: true });
 
   return (
     <WorkoutClient
@@ -42,7 +80,7 @@ export async function WorkoutData({ workoutId }: { workoutId: number }) {
         label: week?.label ?? "",
       }}
       exercises={
-        workoutExercises.map((we) => {
+        (workoutExercises ?? []).map((we) => {
           // Supabase returns the joined exercise as an object (or array with single item)
           const ex = Array.isArray(we.exercise) ? we.exercise[0] : we.exercise;
           return {

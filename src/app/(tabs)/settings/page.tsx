@@ -1,14 +1,17 @@
 import { redirect } from "next/navigation";
 import { getUser, getProfile } from "@/utils/supabase/server";
-import { getCachedWeeks } from "@/utils/cached-queries";
 import { SettingsClient } from "./settings-client";
 
 export default async function SettingsPage() {
-  const [{ user }, profile, weeks] = await Promise.all([
+  const [{ user, supabase }, profile] = await Promise.all([
     getUser(),
     getProfile(),
-    getCachedWeeks(),
   ]);
+
+  const { data: weeks } = await supabase
+    .from("week")
+    .select("id, week_number, label")
+    .order("week_number", { ascending: true });
 
   if (!profile) redirect("/onboarding");
 
@@ -28,7 +31,7 @@ export default async function SettingsPage() {
         deload_first: profile.deload_first,
         current_week_id: profile.current_week_id,
       }}
-      weeks={weeks}
+      weeks={weeks ?? []}
       email={user.email ?? ""}
     />
   );

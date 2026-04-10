@@ -1,24 +1,20 @@
 import { Suspense } from "react";
+import { getUser } from "@/utils/supabase/server";
 import { WorkoutDetailSkeleton } from "@/components/skeletons";
 import { WorkoutData } from "./_components/workout-data";
 
-export default function WorkoutPage({
+export default async function WorkoutPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await getUser(); // auth gate (cached, redirects to /login if not authenticated)
+  const { id } = await params;
+  const workoutId = Number(id);
+
   return (
     <Suspense fallback={<WorkoutDetailSkeleton />}>
-      <WorkoutDataResolver params={params} />
+      <WorkoutData workoutId={workoutId} />
     </Suspense>
   );
-}
-
-async function WorkoutDataResolver({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  return <WorkoutData workoutId={Number(id)} />;
 }
