@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { useHaptics } from "@/hooks/use-haptics";
 import {
   calculateWeight,
   generateWarmupPyramid,
@@ -266,6 +267,7 @@ export function WorkoutClient({
   const router = useRouter();
   const supabase = createClient();
   const startedAtRef = useRef<string>(new Date().toISOString());
+  const haptics = useHaptics();
 
   // -----------------------------------------------------------------------
   // Build initial set entries for all exercises
@@ -360,19 +362,21 @@ export function WorkoutClient({
         setRestTimer((prev) => {
           if (prev === null || prev <= 1) {
             if (timerRef.current) clearInterval(timerRef.current);
+            haptics.alert();
             return null;
           }
           return prev - 1;
         });
       }, 1000);
     },
-    []
+    [haptics]
   );
 
   const dismissTimer = useCallback(() => {
+    haptics.tap();
     if (timerRef.current) clearInterval(timerRef.current);
     setRestTimer(null);
-  }, []);
+  }, [haptics]);
 
   useEffect(() => {
     return () => {
@@ -415,11 +419,13 @@ export function WorkoutClient({
     // If marking as complete, start rest timer
     const set = setEntries[weId]?.[index];
     if (set && !set.completed) {
+      haptics.success();
       startRestTimer(exercise.restMinSeconds, exercise.restMaxSeconds);
     }
   }
 
   function toggleNotes(weId: number) {
+    haptics.tap();
     setExpandedNotes((prev) => ({ ...prev, [weId]: !prev[weId] }));
   }
 
@@ -436,6 +442,7 @@ export function WorkoutClient({
   // Finish workout
   // -----------------------------------------------------------------------
   async function finishWorkout() {
+    haptics.heavy();
     setIsSaving(true);
 
     try {
