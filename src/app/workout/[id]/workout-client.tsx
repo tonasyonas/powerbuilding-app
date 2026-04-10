@@ -754,7 +754,7 @@ function SetRow({
 
   return (
     <div
-      className={`flex items-center gap-1.5 rounded-lg px-2 py-2 transition-colors duration-150 ${
+      className={`flex items-center gap-1.5 rounded-lg px-1.5 py-2 transition-colors duration-150 ${
         set.completed
           ? "bg-success/10"
           : isWarmup
