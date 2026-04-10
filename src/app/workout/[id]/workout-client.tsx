@@ -534,10 +534,7 @@ export function WorkoutClient({
           const workingSets = sets.filter((s) => s.setType === "working");
 
           return (
-            <section
-              key={ex.workoutExerciseId}
-              className=""
-            >
+            <section key={ex.workoutExerciseId}>
               {/* Exercise Header */}
               <div className="px-4 pt-4 pb-3">
                 <div className="flex items-start justify-between gap-2">
