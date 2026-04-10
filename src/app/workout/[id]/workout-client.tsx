@@ -336,67 +336,127 @@ export function WorkoutClient({
     {}
   );
 
-  // Rest timer state
-  const [restTimer, setRestTimer] = useState<number | null>(null);
+  // Rest timer state — timestamp-based so it survives background throttling
+  const [restEndTime, setRestEndTime] = useState<number | null>(null);
   const [restDuration, setRestDuration] = useState<number>(0);
+  const [restRemaining, setRestRemaining] = useState<number | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const notifTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Saving state
   const [isSaving, setIsSaving] = useState(false);
 
   // -----------------------------------------------------------------------
-  // Rest timer logic
+  // Notification helpers
+  // -----------------------------------------------------------------------
+  const requestNotificationPermission = useCallback(() => {
+    if (typeof Notification !== "undefined" && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  const scheduleNotification = useCallback((seconds: number) => {
+    if (notifTimeoutRef.current) clearTimeout(notifTimeoutRef.current);
+    if (typeof Notification === "undefined" || Notification.permission !== "granted") return;
+    notifTimeoutRef.current = setTimeout(() => {
+      new Notification("Rest Complete", {
+        body: "Time to get back to your set!",
+        icon: "/icons/icon-192x192.png",
+        tag: "rest-timer",
+      });
+    }, seconds * 1000);
+  }, []);
+
+  const cancelNotification = useCallback(() => {
+    if (notifTimeoutRef.current) clearTimeout(notifTimeoutRef.current);
+  }, []);
+
+  // -----------------------------------------------------------------------
+  // Rest timer logic — uses end timestamp, recalculates on every tick
   // -----------------------------------------------------------------------
   const startRestTimer = useCallback(
     (restMin: number | null, restMax: number | null) => {
-      // Clear any running timer
       if (timerRef.current) clearInterval(timerRef.current);
 
       const min = restMin ?? 60;
       const max = restMax ?? 180;
       const duration = Math.round((min + max) / 2);
+      const endTime = Date.now() + duration * 1000;
+
       setRestDuration(duration);
-      setRestTimer(duration);
+      setRestEndTime(endTime);
+      setRestRemaining(duration);
+
+      requestNotificationPermission();
+      scheduleNotification(duration);
 
       timerRef.current = setInterval(() => {
-        setRestTimer((prev) => {
-          if (prev === null || prev <= 1) {
-            if (timerRef.current) clearInterval(timerRef.current);
-            haptics.alert();
-            return null;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+        const remaining = Math.round((endTime - Date.now()) / 1000);
+        if (remaining <= 0) {
+          if (timerRef.current) clearInterval(timerRef.current);
+          haptics.alert();
+          setRestEndTime(null);
+          setRestRemaining(null);
+        } else {
+          setRestRemaining(remaining);
+        }
+      }, 250); // Tick fast to catch up after background
     },
-    [haptics]
+    [haptics, requestNotificationPermission, scheduleNotification]
   );
 
   const dismissTimer = useCallback(() => {
     haptics.tap();
     if (timerRef.current) clearInterval(timerRef.current);
-    setRestTimer(null);
-  }, [haptics]);
+    cancelNotification();
+    setRestEndTime(null);
+    setRestRemaining(null);
+  }, [haptics, cancelNotification]);
 
   const adjustTimer = useCallback(
     (delta: number) => {
       haptics.tap();
-      setRestTimer((prev) => {
+      setRestEndTime((prev) => {
         if (prev === null) return null;
-        const next = prev + delta;
-        return next < 1 ? 1 : next;
+        const newEnd = prev + delta * 1000;
+        const remaining = Math.round((newEnd - Date.now()) / 1000);
+        if (remaining < 1) return Date.now() + 1000;
+        // Reschedule notification for new remaining time
+        cancelNotification();
+        scheduleNotification(remaining);
+        return newEnd;
       });
       setRestDuration((prev) => {
         const next = prev + delta;
         return next < 1 ? 1 : next;
       });
     },
-    [haptics]
+    [haptics, cancelNotification, scheduleNotification]
   );
+
+  // Recalculate on visibility change (user returns to app)
+  useEffect(() => {
+    function handleVisibility() {
+      if (document.visibilityState === "visible" && restEndTime !== null) {
+        const remaining = Math.round((restEndTime - Date.now()) / 1000);
+        if (remaining <= 0) {
+          if (timerRef.current) clearInterval(timerRef.current);
+          haptics.alert();
+          setRestEndTime(null);
+          setRestRemaining(null);
+        } else {
+          setRestRemaining(remaining);
+        }
+      }
+    }
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, [restEndTime, haptics]);
 
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (notifTimeoutRef.current) clearTimeout(notifTimeoutRef.current);
     };
   }, []);
 
@@ -682,7 +742,7 @@ export function WorkoutClient({
       {/* Bottom Bar — timer or finish button, never both */}
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/95 backdrop-blur-sm border-t border-border">
         <div className="max-w-lg mx-auto px-5 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
-          {restTimer !== null ? (
+          {restRemaining !== null ? (
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -697,7 +757,7 @@ export function WorkoutClient({
                   style={{
                     width:
                       restDuration > 0
-                        ? `${(restTimer / restDuration) * 100}%`
+                        ? `${(restRemaining / restDuration) * 100}%`
                         : "0%",
                   }}
                 />
@@ -706,7 +766,7 @@ export function WorkoutClient({
                     <TimerIcon />
                   </span>
                   <span className="font-mono text-2xl font-bold text-zinc-100">
-                    {formatTime(restTimer)}
+                    {formatTime(restRemaining)}
                   </span>
                 </div>
               </div>
