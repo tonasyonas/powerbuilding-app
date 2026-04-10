@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useHaptics } from "@/hooks/use-haptics";
 
 import type { ProgressData } from "./page";
 
@@ -92,6 +93,7 @@ function StatCard({
 
 export function ProgressClient({ data }: { data: ProgressData }) {
   const [selectedLift, setSelectedLift] = useState<string>("squat");
+  const haptics = useHaptics();
 
   const hasData =
     data.totalWorkouts > 0 ||
@@ -153,7 +155,7 @@ export function ProgressClient({ data }: { data: ProgressData }) {
               <button
                 key={lift}
                 type="button"
-                onClick={() => setSelectedLift(lift)}
+                onClick={() => { if (selectedLift !== lift) haptics.tap(); setSelectedLift(lift); }}
                 className={`flex-1 text-center text-sm font-medium py-2 rounded-md transition-all duration-150 cursor-pointer min-h-[40px] ${
                   selectedLift === lift
                     ? "bg-accent text-white shadow-sm"

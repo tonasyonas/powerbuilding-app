@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useHaptics } from "@/hooks/use-haptics";
 
 import type { WorkoutLogEntry, SetLogDetail } from "./page";
 
@@ -84,13 +85,14 @@ function WorkoutLogCard({
   unit: string;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const haptics = useHaptics();
   const exerciseGroups = groupSetsByExercise(entry.sets);
 
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
       <button
         type="button"
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => { haptics.tap(); setExpanded(!expanded); }}
         className="w-full text-left p-4 cursor-pointer transition-colors duration-150 hover:bg-card-hover min-h-[48px]"
       >
         <div className="flex items-start justify-between gap-3">
