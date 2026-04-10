@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { useHaptics } from "@/hooks/use-haptics";
+import { useTimerSound } from "@/hooks/use-timer-sound";
 import {
   calculateWeight,
   generateWarmupPyramid,
@@ -268,6 +269,7 @@ export function WorkoutClient({
   const supabase = createClient();
   const startedAtRef = useRef<string>(new Date().toISOString());
   const haptics = useHaptics();
+  const playTimerSound = useTimerSound();
 
   // -----------------------------------------------------------------------
   // Build initial set entries for all exercises
@@ -399,6 +401,7 @@ export function WorkoutClient({
         if (remaining <= 0) {
           if (timerRef.current) clearInterval(timerRef.current);
           haptics.alert();
+          playTimerSound();
           setRestEndTime(null);
           restEndTimeRef.current = null;
           setRestRemaining(null);
@@ -459,6 +462,7 @@ export function WorkoutClient({
         if (remaining <= 0) {
           if (timerRef.current) clearInterval(timerRef.current);
           haptics.alert();
+          playTimerSound();
           setRestEndTime(null);
           restEndTimeRef.current = null;
           setRestRemaining(null);
