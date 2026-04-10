@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { useHaptics } from "@/hooks/use-haptics";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,11 +14,13 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const haptics = useHaptics();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
+    haptics.tap();
 
     try {
       if (mode === "signup") {
@@ -76,6 +79,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => {
+              if (mode !== "signin") haptics.tap();
               setMode("signin");
               setError(null);
             }}
@@ -90,6 +94,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => {
+              if (mode !== "signup") haptics.tap();
               setMode("signup");
               setError(null);
             }}

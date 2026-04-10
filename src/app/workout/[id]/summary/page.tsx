@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
+import { SummaryHaptics } from "./summary-haptics";
 
 function TrophyIcon() {
   return (
@@ -169,6 +170,7 @@ export default async function WorkoutSummaryPage({
 
   return (
     <div className="min-h-dvh bg-zinc-950 flex items-center justify-center px-5">
+      <SummaryHaptics weekComplete={allDaysComplete} />
       <div className="w-full max-w-sm text-center">
         {/* Trophy icon */}
         <div className="flex justify-center mb-6">
