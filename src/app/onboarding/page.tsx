@@ -120,7 +120,7 @@ export default function OnboardingPage() {
                 if (unit !== "kg") haptics.tap();
                 setUnit("kg");
               }}
-              className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
+              className={`press flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer ${
                 unit === "kg"
                   ? "bg-accent text-white"
                   : "bg-card text-muted hover:text-zinc-100"
@@ -134,7 +134,7 @@ export default function OnboardingPage() {
                 if (unit !== "lbs") haptics.tap();
                 setUnit("lbs");
               }}
-              className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
+              className={`press flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer ${
                 unit === "lbs"
                   ? "bg-accent text-white"
                   : "bg-card text-muted hover:text-zinc-100"
@@ -146,16 +146,19 @@ export default function OnboardingPage() {
         </div>
 
         {/* 1RM Inputs */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {LIFTS.map((lift) => (
+        <form onSubmit={handleSubmit} className="space-y-4 stagger">
+          {LIFTS.map((lift, idx) => (
             <div
               key={lift.key}
-              className="rounded-lg border border-border bg-card p-4"
+              className="rounded-xl border border-border bg-card p-4 transition-colors duration-[var(--duration-base)] ease-[var(--ease-out)] focus-within:border-accent/50 focus-within:bg-card-hover"
             >
               <label
                 htmlFor={lift.key}
-                className="block text-sm font-medium text-zinc-400 mb-2"
+                className="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2"
               >
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-zinc-800 text-[10px] font-mono font-bold text-zinc-500">
+                  {idx + 1}
+                </span>
                 {lift.label}
               </label>
               <div className="flex items-baseline gap-2">
@@ -179,7 +182,7 @@ export default function OnboardingPage() {
           ))}
 
           {error && (
-            <p className="text-sm text-red-500 bg-red-500/10 rounded-lg px-3 py-2">
+            <p className="fade-in text-sm text-red-500 bg-red-500/10 rounded-lg px-3 py-2">
               {error}
             </p>
           )}
@@ -187,7 +190,7 @@ export default function OnboardingPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-accent py-4 text-base font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+            className="press w-full rounded-lg bg-accent py-4 text-base font-semibold text-white cursor-pointer hover:bg-accent-hover shadow-lg shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none mt-6"
           >
             {loading ? "..." : "Start Program"}
           </button>

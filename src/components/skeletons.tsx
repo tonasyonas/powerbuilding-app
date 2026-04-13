@@ -3,24 +3,24 @@ export function DashboardSkeleton() {
     <div className="max-w-lg mx-auto px-4 pt-8 animate-pulse">
       {/* Week header */}
       <div className="flex items-center justify-between mb-6">
-        <div className="h-8 w-40 bg-zinc-800 rounded" />
-        <div className="h-5 w-20 bg-zinc-800 rounded" />
+        <div className="h-8 w-40 bg-border rounded" />
+        <div className="h-5 w-20 bg-border rounded" />
       </div>
-      <div className="h-4 w-24 bg-zinc-800 rounded mb-6" />
+      <div className="h-4 w-24 bg-border rounded mb-6" />
 
       {/* Workout cards */}
       <div className="space-y-3">
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="bg-zinc-900 rounded-xl p-4 border border-zinc-800"
+            className="bg-card rounded-xl p-4 border border-border"
           >
             <div className="flex items-center justify-between mb-3">
-              <div className="h-5 w-28 bg-zinc-800 rounded" />
-              <div className="h-4 w-16 bg-zinc-800 rounded" />
+              <div className="h-5 w-28 bg-border rounded" />
+              <div className="h-4 w-16 bg-border rounded" />
             </div>
-            <div className="h-4 w-48 bg-zinc-800 rounded mb-2" />
-            <div className="h-3 w-32 bg-zinc-800 rounded" />
+            <div className="h-4 w-48 bg-border rounded mb-2" />
+            <div className="h-3 w-32 bg-border rounded" />
           </div>
         ))}
       </div>
@@ -36,18 +36,18 @@ export function ProgressSkeleton() {
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="bg-zinc-900 rounded-xl p-4 border border-zinc-800"
+            className="bg-card rounded-xl p-4 border border-border"
           >
-            <div className="h-6 w-16 bg-zinc-800 rounded mb-2" />
-            <div className="h-3 w-20 bg-zinc-800 rounded" />
+            <div className="h-6 w-16 bg-border rounded mb-2" />
+            <div className="h-3 w-20 bg-border rounded" />
           </div>
         ))}
       </div>
 
       {/* Chart placeholder */}
-      <div className="bg-zinc-900 rounded-xl border border-zinc-800 p-4 mb-6">
-        <div className="h-5 w-32 bg-zinc-800 rounded mb-4" />
-        <div className="h-48 w-full bg-zinc-800 rounded" />
+      <div className="bg-card rounded-xl border border-border p-4 mb-6">
+        <div className="h-5 w-32 bg-border rounded mb-4" />
+        <div className="h-48 w-full bg-border rounded" />
       </div>
 
       {/* Lift bests */}
@@ -55,10 +55,10 @@ export function ProgressSkeleton() {
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-zinc-900 rounded-xl p-4 border border-zinc-800 flex justify-between"
+            className="bg-card rounded-xl p-4 border border-border flex justify-between"
           >
-            <div className="h-5 w-24 bg-zinc-800 rounded" />
-            <div className="h-5 w-16 bg-zinc-800 rounded" />
+            <div className="h-5 w-24 bg-border rounded" />
+            <div className="h-5 w-16 bg-border rounded" />
           </div>
         ))}
       </div>
@@ -73,16 +73,16 @@ export function HistorySkeleton() {
         {[1, 2, 3, 4, 5].map((i) => (
           <div
             key={i}
-            className="bg-zinc-900 rounded-xl p-4 border border-zinc-800"
+            className="bg-card rounded-xl p-4 border border-border"
           >
             <div className="flex items-center justify-between mb-3">
-              <div className="h-5 w-32 bg-zinc-800 rounded" />
-              <div className="h-4 w-20 bg-zinc-800 rounded" />
+              <div className="h-5 w-32 bg-border rounded" />
+              <div className="h-4 w-20 bg-border rounded" />
             </div>
             <div className="flex gap-4">
-              <div className="h-3 w-16 bg-zinc-800 rounded" />
-              <div className="h-3 w-16 bg-zinc-800 rounded" />
-              <div className="h-3 w-16 bg-zinc-800 rounded" />
+              <div className="h-3 w-16 bg-border rounded" />
+              <div className="h-3 w-16 bg-border rounded" />
+              <div className="h-3 w-16 bg-border rounded" />
             </div>
           </div>
         ))}
@@ -96,9 +96,9 @@ export function WorkoutDetailSkeleton() {
     <div className="max-w-lg mx-auto px-4 pt-8 animate-pulse">
       {/* Workout header */}
       <div className="mb-6">
-        <div className="h-4 w-20 bg-zinc-800 rounded mb-2" />
-        <div className="h-7 w-48 bg-zinc-800 rounded mb-1" />
-        <div className="h-4 w-32 bg-zinc-800 rounded" />
+        <div className="h-4 w-20 bg-border rounded mb-2" />
+        <div className="h-7 w-48 bg-border rounded mb-1" />
+        <div className="h-4 w-32 bg-border rounded" />
       </div>
 
       {/* Exercise rows */}
@@ -106,12 +106,12 @@ export function WorkoutDetailSkeleton() {
         {[1, 2, 3, 4, 5].map((i) => (
           <div
             key={i}
-            className="bg-zinc-900 rounded-xl p-4 border border-zinc-800"
+            className="bg-card rounded-xl p-4 border border-border"
           >
-            <div className="h-5 w-36 bg-zinc-800 rounded mb-3" />
+            <div className="h-5 w-36 bg-border rounded mb-3" />
             <div className="space-y-2">
-              <div className="h-3 w-full bg-zinc-800 rounded" />
-              <div className="h-3 w-3/4 bg-zinc-800 rounded" />
+              <div className="h-3 w-full bg-border rounded" />
+              <div className="h-3 w-3/4 bg-border rounded" />
             </div>
           </div>
         ))}

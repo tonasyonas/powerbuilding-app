@@ -65,7 +65,7 @@ export default function LoginPage() {
     <div className="min-h-dvh flex items-center justify-center px-6">
       <div className="w-full max-w-sm">
         {/* Branding */}
-        <div className="text-center mb-10">
+        <div className="fade-in text-center mb-10">
           <h1 className="font-display text-5xl font-bold tracking-wider text-zinc-100">
             POWERBUILDING
           </h1>
@@ -83,7 +83,7 @@ export default function LoginPage() {
               setMode("signin");
               setError(null);
             }}
-            className={`flex-1 py-3 text-sm font-medium tracking-wide cursor-pointer transition-colors duration-150 ${
+            className={`press flex-1 py-3 text-sm font-medium tracking-wide cursor-pointer ${
               mode === "signin"
                 ? "bg-accent text-white"
                 : "bg-card text-muted hover:text-zinc-100"
@@ -98,7 +98,7 @@ export default function LoginPage() {
               setMode("signup");
               setError(null);
             }}
-            className={`flex-1 py-3 text-sm font-medium tracking-wide cursor-pointer transition-colors duration-150 ${
+            className={`press flex-1 py-3 text-sm font-medium tracking-wide cursor-pointer ${
               mode === "signup"
                 ? "bg-accent text-white"
                 : "bg-card text-muted hover:text-zinc-100"
@@ -109,7 +109,7 @@ export default function LoginPage() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5 stagger">
           <div>
             <label
               htmlFor="email"
@@ -150,7 +150,7 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <p className="text-sm text-red-500 bg-red-500/10 rounded-lg px-3 py-2">
+            <p className="fade-in text-sm text-red-500 bg-red-500/10 rounded-lg px-3 py-2">
               {error}
             </p>
           )}
@@ -158,7 +158,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-accent py-3.5 text-sm font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
+            className="press w-full rounded-lg bg-accent py-3.5 text-sm font-semibold text-white cursor-pointer hover:bg-accent-hover shadow-lg shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
           >
             {loading
               ? "..."

@@ -291,7 +291,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
   const currentWeek = weeks.find((w) => w.id === currentWeekId);
 
   return (
-    <div className="min-h-dvh bg-zinc-950 pb-24">
+    <div className="min-h-dvh bg-background pb-24">
       <div className="max-w-lg mx-auto px-5 pt-10">
         {/* Page Title */}
         <h1 className="font-display text-4xl font-bold tracking-wider text-zinc-100 mb-8">
@@ -300,7 +300,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
 
         {/* Error banner */}
         {error && (
-          <div className="mb-6 rounded-xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400 transition-opacity duration-150">
+          <div className="fade-in mb-6 rounded-xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400">
             {error}
           </div>
         )}
@@ -346,7 +346,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                 type="button"
                 onClick={saveProfile}
                 disabled={saving}
-                className="w-full rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                className="press w-full rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Saving..." : "Save Profile"}
               </button>
@@ -399,7 +399,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                 type="button"
                 onClick={saveMaxes}
                 disabled={saving}
-                className="w-full rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                className="press w-full rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed mt-2"
               >
                 {saving ? "Saving..." : "Save Maxes"}
               </button>
@@ -425,7 +425,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                   <button
                     type="button"
                     onClick={() => { if (unit !== "kg") haptics.tap(); setUnit("kg"); }}
-                    className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
+                    className={`press flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer ${
                       unit === "kg"
                         ? "bg-accent text-white"
                         : "bg-card text-muted hover:text-zinc-100"
@@ -436,7 +436,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                   <button
                     type="button"
                     onClick={() => { if (unit !== "lbs") haptics.tap(); setUnit("lbs"); }}
-                    className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
+                    className={`press flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer ${
                       unit === "lbs"
                         ? "bg-accent text-white"
                         : "bg-card text-muted hover:text-zinc-100"
@@ -477,7 +477,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                   <button
                     type="button"
                     onClick={() => { if (week10Variant !== "A") haptics.tap(); setWeek10Variant("A"); }}
-                    className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
+                    className={`press flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer ${
                       week10Variant === "A"
                         ? "bg-accent text-white"
                         : "bg-card text-muted hover:text-zinc-100"
@@ -488,7 +488,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                   <button
                     type="button"
                     onClick={() => { if (week10Variant !== "B") haptics.tap(); setWeek10Variant("B"); }}
-                    className={`flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer transition-colors duration-150 ${
+                    className={`press flex-1 py-3 text-sm font-semibold tracking-wide cursor-pointer ${
                       week10Variant === "B"
                         ? "bg-accent text-white"
                         : "bg-card text-muted hover:text-zinc-100"
@@ -527,12 +527,12 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                     role="switch"
                     aria-checked={deloadFirst}
                     onClick={() => { haptics.tap(); setDeloadFirst((prev) => !prev); }}
-                    className={`relative shrink-0 h-7 w-12 rounded-full cursor-pointer transition-colors duration-150 ${
+                    className={`press relative shrink-0 h-7 w-12 rounded-full cursor-pointer ${
                       deloadFirst ? "bg-accent" : "bg-zinc-700"
                     }`}
                   >
                     <span
-                      className={`absolute top-0.5 left-0.5 h-6 w-6 rounded-full bg-white transition-transform duration-150 ${
+                      className={`absolute top-0.5 left-0.5 h-6 w-6 rounded-full bg-white shadow-sm transition-transform duration-[var(--duration-base)] ease-[var(--ease-spring)] ${
                         deloadFirst ? "translate-x-5" : "translate-x-0"
                       }`}
                     />
@@ -544,7 +544,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                 type="button"
                 onClick={savePreferences}
                 disabled={saving}
-                className="w-full rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+                className="press w-full rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed mt-1"
               >
                 {saving ? "Saving..." : "Save Preferences"}
               </button>
@@ -591,12 +591,12 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                 <button
                   type="button"
                   onClick={() => setShowResetConfirm(true)}
-                  className="w-full rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer transition-colors duration-150 hover:text-zinc-100 hover:border-zinc-500"
+                  className="press w-full rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer hover:text-zinc-100 hover:border-zinc-500"
                 >
                   Reset to Week 1
                 </button>
               ) : (
-                <div className="rounded-lg border border-warning/30 bg-warning/5 p-4">
+                <div className="fade-in rounded-lg border border-warning/30 bg-warning/5 p-4">
                   <p className="text-sm text-zinc-300 mb-3">
                     This will set your current position to Week 1. Your workout
                     history will not be deleted.
@@ -606,14 +606,14 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                       type="button"
                       onClick={() => { haptics.warning(); resetToWeek1(); }}
                       disabled={saving}
-                      className="flex-1 rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover disabled:opacity-50"
+                      className="press flex-1 rounded-lg bg-accent py-3 text-sm font-semibold text-white cursor-pointer hover:bg-accent-hover disabled:opacity-50"
                     >
                       Confirm Reset
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowResetConfirm(false)}
-                      className="flex-1 rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer transition-colors duration-150 hover:text-zinc-100"
+                      className="press flex-1 rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer hover:text-zinc-100"
                     >
                       Cancel
                     </button>
@@ -631,7 +631,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
             <button
               type="button"
               onClick={() => { haptics.tap(); handleSignOut(); }}
-              className="w-full rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer transition-colors duration-150 hover:text-zinc-100 hover:border-zinc-500"
+              className="press w-full rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer hover:text-zinc-100 hover:border-zinc-500"
             >
               Sign Out
             </button>
@@ -647,7 +647,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                 type="button"
                 onClick={() => { haptics.tap(); handleExport(); }}
                 disabled={exporting}
-                className="w-full rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer transition-colors duration-150 hover:text-zinc-100 hover:border-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="press w-full rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer hover:text-zinc-100 hover:border-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {exporting ? "Exporting..." : "Export Data"}
               </button>
@@ -659,12 +659,12 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                 <button
                   type="button"
                   onClick={() => setShowWipeConfirm(true)}
-                  className="w-full rounded-lg border border-red-500/30 bg-red-500/5 py-3 text-sm font-medium text-red-400 cursor-pointer transition-colors duration-150 hover:bg-red-500/10 hover:border-red-500/50"
+                  className="press w-full rounded-lg border border-red-500/30 bg-red-500/5 py-3 text-sm font-medium text-red-400 cursor-pointer hover:bg-red-500/10 hover:border-red-500/50"
                 >
                   Wipe All Data &amp; Reset
                 </button>
               ) : (
-                <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-4">
+                <div className="fade-in rounded-lg border border-red-500/30 bg-red-500/10 p-4">
                   <p className="text-sm text-zinc-300 mb-1 font-medium">
                     Are you sure?
                   </p>
@@ -678,14 +678,14 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
                       type="button"
                       onClick={() => { haptics.warning(); handleWipe(); }}
                       disabled={wiping}
-                      className="flex-1 rounded-lg bg-red-600 py-3 text-sm font-semibold text-white cursor-pointer transition-colors duration-150 hover:bg-red-500 disabled:opacity-50"
+                      className="press flex-1 rounded-lg bg-red-600 py-3 text-sm font-semibold text-white cursor-pointer hover:bg-red-500 disabled:opacity-50"
                     >
                       {wiping ? "Wiping..." : "Yes, Wipe Everything"}
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowWipeConfirm(false)}
-                      className="flex-1 rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer transition-colors duration-150 hover:text-zinc-100"
+                      className="press flex-1 rounded-lg border border-border bg-zinc-950 py-3 text-sm font-medium text-zinc-400 cursor-pointer hover:text-zinc-100"
                     >
                       Cancel
                     </button>
@@ -705,7 +705,7 @@ export function SettingsClient({ profile, weeks, email }: SettingsClientProps) {
 function SaveIndicator({ visible }: { visible: boolean }) {
   return (
     <span
-      className={`text-xs font-medium text-success transition-opacity duration-300 ${
+      className={`text-xs font-medium text-success transition-opacity duration-[var(--duration-base)] ease-[var(--ease-out)] ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >

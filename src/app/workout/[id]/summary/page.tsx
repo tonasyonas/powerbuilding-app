@@ -112,23 +112,29 @@ export default async function WorkoutSummaryPage({
       : `${Math.round(totalVolume)} ${unit}`;
 
   return (
-    <div className="min-h-dvh bg-zinc-950 flex items-center justify-center px-5">
+    <div className="min-h-dvh bg-background flex items-center justify-center px-5">
       <SummaryHaptics weekComplete={allDaysComplete} />
       <div className="w-full max-w-sm text-center">
         {/* Trophy icon */}
         <div className="flex justify-center mb-6">
-          <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center">
-            <TrophyIcon />
+          <div className="relative">
+            <span
+              aria-hidden
+              className="ring-expand absolute inset-0 rounded-full bg-accent/30"
+            />
+            <div className="pop-in relative w-20 h-20 rounded-full bg-accent/10 ring-1 ring-accent/30 shadow-xl shadow-accent/25 flex items-center justify-center">
+              <TrophyIcon />
+            </div>
           </div>
         </div>
 
-        <h1 className="font-display text-3xl font-bold tracking-wider text-zinc-100 uppercase">
+        <h1 className="fade-in font-display text-3xl font-bold tracking-wider text-zinc-100 uppercase">
           Workout Complete
         </h1>
-        <p className="mt-2 text-sm text-muted">{workout.name}</p>
+        <p className="fade-in mt-2 text-sm text-muted">{workout.name}</p>
 
         {/* Stats grid */}
-        <div className="grid grid-cols-3 gap-3 mt-8">
+        <div className="grid grid-cols-3 gap-3 mt-8 stagger">
           <div className="rounded-xl border border-border bg-card px-3 py-4">
             <p className="font-mono text-2xl font-bold text-zinc-100">
               {duration}
@@ -157,7 +163,7 @@ export default async function WorkoutSummaryPage({
 
         {/* Week complete banner */}
         {allDaysComplete && (
-          <div className="mt-6 rounded-xl border border-success/30 bg-success/10 px-4 py-3">
+          <div className="fade-in mt-6 rounded-xl border border-success/30 bg-success/10 px-4 py-3">
             <p className="text-sm font-semibold text-success">
               Week complete! Advanced to next week.
             </p>
@@ -167,7 +173,7 @@ export default async function WorkoutSummaryPage({
         {/* Back to dashboard */}
         <Link
           href="/dashboard"
-          className="inline-flex items-center justify-center w-full mt-8 rounded-xl bg-accent py-4 text-base font-display font-bold tracking-wider text-white uppercase cursor-pointer transition-all duration-150 hover:bg-accent-hover active:scale-[0.98]"
+          className="press fade-in inline-flex items-center justify-center w-full mt-8 rounded-xl bg-accent py-4 text-base font-display font-bold tracking-wider text-white uppercase cursor-pointer hover:bg-accent-hover shadow-lg shadow-accent/20"
         >
           Back to Dashboard
         </Link>

@@ -95,7 +95,7 @@ export function DashboardClient({
   const haptics = useHaptics();
 
   return (
-    <div className="min-h-dvh bg-zinc-950 pb-24">
+    <div className="min-h-dvh bg-background pb-24">
       <div className="max-w-lg mx-auto px-5 pt-10">
         {/* Week Header */}
         <div className="mb-8">
@@ -113,17 +113,17 @@ export function DashboardClient({
         </div>
 
         {/* Workout Cards */}
-        <div className="space-y-3">
+        <div className="space-y-3 stagger">
           {workoutCards.map((card) => (
             <Link
               key={card.id}
               href={`/workout/${card.id}`}
               onClick={() => haptics.tap()}
-              className={`block rounded-xl border bg-card p-4 cursor-pointer transition-all duration-150 hover:bg-card-hover ${
+              className={`press-lift block rounded-xl border bg-card p-4 cursor-pointer hover:bg-card-hover ${
                 card.status === "up-next"
-                  ? "border-l-4 border-l-accent border-t-border border-r-border border-b-border shadow-lg shadow-accent/5"
+                  ? "accent-glow border-l-4 border-l-accent border-t-border border-r-border border-b-border"
                   : "border-border"
-              } ${card.status === "done" ? "opacity-70" : ""}`}
+              } ${card.status === "done" ? "opacity-60" : ""}`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
@@ -132,7 +132,11 @@ export function DashboardClient({
                       Day {card.dayNumber}
                     </span>
                     {card.status === "up-next" && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-accent">
+                      <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-accent">
+                        <span className="relative inline-flex h-1.5 w-1.5">
+                          <span className="absolute inset-0 rounded-full bg-accent animate-ping opacity-75" />
+                          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+                        </span>
                         Up Next
                       </span>
                     )}
@@ -183,7 +187,7 @@ export function DashboardClient({
             type="button"
             disabled={!prevWeekId}
             onClick={() => { if (prevWeekId) { haptics.tap(); router.push(`/dashboard?week=${prevWeekId}`); } }}
-            className="flex items-center gap-1 text-sm text-muted cursor-pointer transition-colors duration-150 hover:text-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed min-h-[48px] px-2"
+            className="press flex items-center gap-1 text-sm text-muted cursor-pointer hover:text-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed min-h-[48px] px-2"
           >
             <ChevronLeftIcon />
             <span>Prev</span>
@@ -193,7 +197,7 @@ export function DashboardClient({
             <button
               type="button"
               onClick={() => { haptics.tap(); router.push("/dashboard"); }}
-              className="text-xs font-medium text-accent cursor-pointer transition-colors duration-150 hover:text-accent-hover min-h-[48px] px-3 flex items-center"
+              className="press text-xs font-medium text-accent cursor-pointer hover:text-accent-hover min-h-[48px] px-3 flex items-center"
             >
               Current Week
             </button>
@@ -203,7 +207,7 @@ export function DashboardClient({
             type="button"
             disabled={!nextWeekId}
             onClick={() => { if (nextWeekId) { haptics.tap(); router.push(`/dashboard?week=${nextWeekId}`); } }}
-            className="flex items-center gap-1 text-sm text-muted cursor-pointer transition-colors duration-150 hover:text-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed min-h-[48px] px-2"
+            className="press flex items-center gap-1 text-sm text-muted cursor-pointer hover:text-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed min-h-[48px] px-2"
           >
             <span>Next</span>
             <ChevronRightIcon />
