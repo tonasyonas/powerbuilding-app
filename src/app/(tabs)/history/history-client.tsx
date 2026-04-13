@@ -68,7 +68,7 @@ function ChevronDownIcon({ expanded }: { expanded: boolean }) {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={`text-muted transition-transform duration-200 ${
+      className={`text-muted transition-transform duration-[var(--duration-base)] ease-[var(--ease-out)] ${
         expanded ? "rotate-180" : ""
       }`}
     >
@@ -93,7 +93,7 @@ function WorkoutLogCard({
       <button
         type="button"
         onClick={() => { haptics.tap(); setExpanded(!expanded); }}
-        className="w-full text-left p-4 cursor-pointer transition-colors duration-150 hover:bg-card-hover min-h-[48px]"
+        className="press w-full text-left p-4 cursor-pointer hover:bg-card-hover min-h-[48px]"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
@@ -137,7 +137,7 @@ function WorkoutLogCard({
       </button>
 
       {expanded && entry.sets.length > 0 && (
-        <div className="border-t border-border px-4 py-3 space-y-4">
+        <div className="border-t border-border px-4 py-3 space-y-4 stagger">
           {exerciseGroups.map((group) => (
             <div key={group.exerciseName}>
               <p className="text-xs font-medium text-muted uppercase tracking-wider mb-1.5">
@@ -175,27 +175,29 @@ function WorkoutLogCard({
 export function HistoryClient({ logs, unit }: HistoryClientProps) {
   if (logs.length === 0) {
     return (
-      <div className="min-h-dvh bg-zinc-950 pb-24">
+      <div className="min-h-dvh bg-background pb-24">
         <div className="max-w-lg mx-auto px-5 pt-10">
           <h1 className="font-display text-4xl font-bold tracking-wider text-zinc-100">
             HISTORY
           </h1>
-          <div className="mt-16 flex flex-col items-center text-center px-4">
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#71717a"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mb-4"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-            <p className="text-sm text-muted">
+          <div className="fade-in mt-16 flex flex-col items-center text-center px-4">
+            <div className="mb-5 flex items-center justify-center w-16 h-16 rounded-full bg-card border border-border">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-muted"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <p className="text-sm text-muted leading-relaxed max-w-[260px]">
               No workouts logged yet. Start your first workout from the
               dashboard.
             </p>
@@ -222,13 +224,13 @@ export function HistoryClient({ logs, unit }: HistoryClientProps) {
   const sortedWeeks = Array.from(weekGroups.keys()).sort((a, b) => b - a);
 
   return (
-    <div className="min-h-dvh bg-zinc-950 pb-24">
+    <div className="min-h-dvh bg-background pb-24">
       <div className="max-w-lg mx-auto px-5 pt-10">
         <h1 className="font-display text-4xl font-bold tracking-wider text-zinc-100 mb-8">
           HISTORY
         </h1>
 
-        <div className="space-y-8">
+        <div className="space-y-8 stagger">
           {sortedWeeks.map((weekNum) => (
             <div key={weekNum}>
               <h2 className="font-display text-lg font-semibold tracking-wide text-zinc-400 mb-3">

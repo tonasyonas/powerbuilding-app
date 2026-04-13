@@ -1,17 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
+  /* Color tokens — warm-shifted dark for "warm & confident" feel */
+  --background: #0b0a09;
   --foreground: #f4f4f5;
   --accent: #dc2626;
   --accent-hover: #ef4444;
   --accent-muted: #991b1b;
-  --card: #141414;
-  --card-hover: #1c1c1c;
-  --border: #262626;
-  --muted: #71717a;
+  --card: #161513;
+  --card-hover: #1d1c1a;
+  --border: #272524;
+  --muted: #78716c;
   --success: #22c55e;
   --warning: #eab308;
+
+  /* Motion — Emil Kowalski curves */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Duration scale */
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 280ms;
 }
 
 @theme inline {
@@ -29,6 +41,10 @@
   --font-display: var(--font-display);
   --font-body: var(--font-body);
   --font-mono: var(--font-mono);
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+  --ease-spring: var(--ease-spring);
+  --ease-drawer: var(--ease-drawer);
 }
 
 body {
@@ -57,4 +73,144 @@ input[type="number"] {
 *:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+  transition: outline-offset var(--duration-fast) var(--ease-out);
+}
+
+/* ─── Motion utilities ─── */
+
+/*
+ * .press — universal press feedback for buttons, links, cards.
+ * Subtle scale on :active. Keep transition specific to transform so
+ * background/color/border transitions stay independently controllable.
+ * Use @media (hover:hover) so touch devices don't get sticky hover.
+ */
+.press {
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+  transform: translateZ(0); /* promote to GPU */
+}
+.press:active:not(:disabled) {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .press-lift:hover {
+    transform: translateY(-1px);
+  }
+}
+.press-lift {
+  transition: transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out),
+              background-color var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out);
+}
+.press-lift:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Fade-in entrance — for content swap, error banners, etc. */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in {
+  animation: fadeIn var(--duration-base) var(--ease-out) both;
+}
+
+/* Pop-in entrance — for celebratory elements (trophy, badges) */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.pop-in {
+  animation: popIn 360ms var(--ease-spring) both;
+}
+
+/* Celebratory ring expand — runs once around a centered element (trophy, etc.) */
+@keyframes ringExpand {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+.ring-expand {
+  animation: ringExpand 1.4s var(--ease-out) both;
+}
+
+/* Stagger children — apply to a wrapper, children fade in sequentially.
+   Up to 12 children. Keep per-step delay short (Emil: 30-80ms). */
+.stagger > * {
+  animation: fadeIn var(--duration-base) var(--ease-out) both;
+}
+.stagger > *:nth-child(1)  { animation-delay:  0ms; }
+.stagger > *:nth-child(2)  { animation-delay: 40ms; }
+.stagger > *:nth-child(3)  { animation-delay: 80ms; }
+.stagger > *:nth-child(4)  { animation-delay: 120ms; }
+.stagger > *:nth-child(5)  { animation-delay: 160ms; }
+.stagger > *:nth-child(6)  { animation-delay: 200ms; }
+.stagger > *:nth-child(7)  { animation-delay: 240ms; }
+.stagger > *:nth-child(8)  { animation-delay: 280ms; }
+.stagger > *:nth-child(9)  { animation-delay: 320ms; }
+.stagger > *:nth-child(10) { animation-delay: 360ms; }
+.stagger > *:nth-child(11) { animation-delay: 400ms; }
+.stagger > *:nth-child(12) { animation-delay: 440ms; }
+
+/* Slow accent glow breathing — for "up-next" / call-to-action surfaces.
+   Subtle so it never demands attention; just hints "this is the next thing". */
+@keyframes accentGlow {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.08), 0 0 0 1px rgba(220, 38, 38, 0.15) inset;
+  }
+  50% {
+    box-shadow: 0 6px 28px rgba(220, 38, 38, 0.18), 0 0 0 1px rgba(220, 38, 38, 0.25) inset;
+  }
+}
+.accent-glow {
+  animation: accentGlow 3.2s ease-in-out infinite;
+}
+
+/* Subtle, warmer skeleton pulse — replaces Tailwind's default with a softer curve.
+   Override applies wherever animate-pulse is used. */
+@keyframes warmPulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 0.85; }
+}
+.animate-pulse {
+  animation: warmPulse 1.6s var(--ease-in-out) infinite;
+}
+
+/* Reduced motion — keep fades, drop movement (Emil: gentler, not zero) */
+@media (prefers-reduced-motion: reduce) {
+  .press,
+  .press-lift,
+  .press:active,
+  .press-lift:active,
+  .press-lift:hover {
+    transform: none !important;
+  }
+  .fade-in,
+  .pop-in,
+  .stagger > * {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
 }

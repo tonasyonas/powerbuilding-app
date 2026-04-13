@@ -87,7 +87,7 @@ export function BottomNav() {
   const haptics = useHaptics();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-zinc-950/95 backdrop-blur-sm">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/80 backdrop-blur-md">
       <div className="flex items-center justify-around max-w-lg mx-auto px-2 pb-[env(safe-area-inset-bottom)]">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href;
@@ -98,11 +98,17 @@ export function BottomNav() {
               onClick={() => {
                 if (!isActive) haptics.tap();
               }}
-              className={`flex flex-col items-center justify-center gap-1 py-2 px-3 min-h-[48px] min-w-[48px] cursor-pointer transition-colors duration-150 ${
-                isActive ? "text-accent" : "text-muted"
+              className={`press flex flex-col items-center justify-center gap-1 py-2 px-3 min-h-[48px] min-w-[48px] cursor-pointer ${
+                isActive ? "text-accent" : "text-muted hover:text-zinc-300"
               }`}
             >
-              {item.icon(isActive)}
+              <span
+                className={`inline-flex transition-transform duration-[var(--duration-base)] ease-[var(--ease-spring)] ${
+                  isActive ? "scale-110" : "scale-100"
+                }`}
+              >
+                {item.icon(isActive)}
+              </span>
               <span className="text-[10px] font-medium">{item.label}</span>
             </Link>
           );

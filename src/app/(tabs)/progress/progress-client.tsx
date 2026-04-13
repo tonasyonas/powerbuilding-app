@@ -102,26 +102,28 @@ export function ProgressClient({ data }: { data: ProgressData }) {
 
   if (!hasData) {
     return (
-      <div className="min-h-dvh bg-zinc-950 pb-24">
+      <div className="min-h-dvh bg-background pb-24">
         <div className="max-w-lg mx-auto px-5 pt-10">
           <h1 className="font-display text-4xl font-bold tracking-wider text-zinc-100">
             PROGRESS
           </h1>
-          <div className="mt-16 flex flex-col items-center text-center px-4">
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#71717a"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mb-4"
-            >
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-            </svg>
-            <p className="text-sm text-muted">
+          <div className="fade-in mt-16 flex flex-col items-center text-center px-4">
+            <div className="mb-5 flex items-center justify-center w-16 h-16 rounded-full bg-card border border-border">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-muted"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </div>
+            <p className="text-sm text-muted leading-relaxed max-w-[260px]">
               Complete some workouts to see your progress.
             </p>
           </div>
@@ -137,7 +139,7 @@ export function ProgressClient({ data }: { data: ProgressData }) {
   }));
 
   return (
-    <div className="min-h-dvh bg-zinc-950 pb-24">
+    <div className="min-h-dvh bg-background pb-24">
       <div className="max-w-lg mx-auto px-5 pt-10">
         <h1 className="font-display text-4xl font-bold tracking-wider text-zinc-100 mb-8">
           PROGRESS
@@ -156,9 +158,9 @@ export function ProgressClient({ data }: { data: ProgressData }) {
                 key={lift}
                 type="button"
                 onClick={() => { if (selectedLift !== lift) haptics.tap(); setSelectedLift(lift); }}
-                className={`flex-1 text-center text-sm font-medium py-2 rounded-md transition-all duration-150 cursor-pointer min-h-[40px] ${
+                className={`press flex-1 text-center text-sm font-medium py-2 rounded-md cursor-pointer min-h-[40px] ${
                   selectedLift === lift
-                    ? "bg-accent text-white shadow-sm"
+                    ? "bg-accent text-white shadow-sm shadow-accent/30"
                     : "text-muted hover:text-zinc-300"
                 }`}
               >
@@ -193,12 +195,14 @@ export function ProgressClient({ data }: { data: ProgressData }) {
                     domain={["auto", "auto"]}
                   />
                   <Tooltip
+                    cursor={{ stroke: "#3f3f46", strokeWidth: 1, strokeDasharray: "3 3" }}
                     contentStyle={{
-                      backgroundColor: "#18181b",
+                      backgroundColor: "#161513",
                       border: "1px solid #3f3f46",
-                      borderRadius: "8px",
+                      borderRadius: "12px",
                       color: "#f4f4f5",
                       fontSize: "13px",
+                      boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
                     }}
                     labelStyle={{ color: "#a1a1aa" }}
                     formatter={(value) => [
@@ -209,10 +213,13 @@ export function ProgressClient({ data }: { data: ProgressData }) {
                   <Line
                     type="monotone"
                     dataKey="e1rm"
-                    stroke="#dc2626"
-                    strokeWidth={2}
-                    dot={{ fill: "#dc2626", r: 3 }}
-                    activeDot={{ r: 5, fill: "#ef4444" }}
+                    stroke="#ef4444"
+                    strokeWidth={2.5}
+                    dot={{ fill: "#dc2626", r: 3, strokeWidth: 0 }}
+                    activeDot={{ r: 6, fill: "#ef4444", stroke: "#0b0a09", strokeWidth: 2 }}
+                    isAnimationActive
+                    animationDuration={900}
+                    animationEasing="ease-out"
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -256,12 +263,14 @@ export function ProgressClient({ data }: { data: ProgressData }) {
                     tickFormatter={(v: number) => formatVolume(v)}
                   />
                   <Tooltip
+                    cursor={{ stroke: "#3f3f46", strokeWidth: 1, strokeDasharray: "3 3" }}
                     contentStyle={{
-                      backgroundColor: "#18181b",
+                      backgroundColor: "#161513",
                       border: "1px solid #3f3f46",
-                      borderRadius: "8px",
+                      borderRadius: "12px",
                       color: "#f4f4f5",
                       fontSize: "13px",
+                      boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
                     }}
                     labelStyle={{ color: "#a1a1aa" }}
                     formatter={(value) => [
@@ -272,8 +281,11 @@ export function ProgressClient({ data }: { data: ProgressData }) {
                   <Bar
                     dataKey="totalVolume"
                     fill="#dc2626"
-                    opacity={0.8}
-                    radius={[4, 4, 0, 0]}
+                    opacity={0.85}
+                    radius={[6, 6, 0, 0]}
+                    isAnimationActive
+                    animationDuration={700}
+                    animationEasing="ease-out"
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -286,7 +298,7 @@ export function ProgressClient({ data }: { data: ProgressData }) {
           <h2 className="font-display text-lg font-semibold tracking-wide text-zinc-300 mb-4">
             Quick Stats
           </h2>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 stagger">
             <StatCard
               label="Workouts"
               value={data.totalWorkouts.toString()}
@@ -313,7 +325,7 @@ export function ProgressClient({ data }: { data: ProgressData }) {
 
           {/* Individual lift bests */}
           {data.liftBests.length > 1 && (
-            <div className="mt-3 grid grid-cols-2 gap-3">
+            <div className="mt-3 grid grid-cols-2 gap-3 stagger">
               {data.liftBests.map((lb) => (
                 <StatCard
                   key={lb.lift}

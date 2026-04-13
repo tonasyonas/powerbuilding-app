@@ -634,13 +634,13 @@ export function WorkoutClient({
   // Render
   // -----------------------------------------------------------------------
   return (
-    <div className="min-h-dvh bg-zinc-950 pb-40">
+    <div className="min-h-dvh bg-background pb-40">
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border bg-zinc-950/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md shadow-lg shadow-black/20">
         <div className="max-w-lg mx-auto px-5 py-4 flex items-center gap-3">
           <Link
             href="/dashboard"
-            className="shrink-0 flex items-center justify-center w-12 h-12 rounded-lg text-zinc-400 cursor-pointer transition-colors duration-150 hover:text-zinc-100 hover:bg-card"
+            className="press shrink-0 flex items-center justify-center w-12 h-12 rounded-lg text-zinc-400 cursor-pointer hover:text-zinc-100 hover:bg-card"
           >
             <ArrowLeftIcon />
           </Link>
@@ -665,7 +665,7 @@ export function WorkoutClient({
           return (
             <section key={ex.workoutExerciseId}>
               {/* Exercise Header — top offset = page header h-12 (48) + py-4 (32) + border-b (1) = 81px */}
-              <div className="sticky top-[81px] z-30 bg-zinc-950 px-3 pt-2 pb-2 border-b border-border">
+              <div className="sticky top-[81px] z-30 bg-background/95 backdrop-blur-sm px-3 pt-2 pb-2 border-b border-border">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -710,7 +710,7 @@ export function WorkoutClient({
                   <button
                     type="button"
                     onClick={() => toggleNotes(ex.workoutExerciseId)}
-                    className="flex items-center gap-1 mt-1 text-xs text-muted cursor-pointer transition-colors duration-150 hover:text-zinc-300"
+                    className="press flex items-center gap-1 mt-1 text-xs text-muted cursor-pointer hover:text-zinc-300"
                   >
                     <span>Notes</span>
                     {expandedNotes[ex.workoutExerciseId] ? (
@@ -721,7 +721,7 @@ export function WorkoutClient({
                   </button>
                 )}
                 {ex.notes && expandedNotes[ex.workoutExerciseId] && (
-                  <p className="mt-1 text-xs text-zinc-400 leading-relaxed bg-zinc-900/50 rounded px-2 py-1.5">
+                  <p className="fade-in mt-1 text-xs text-zinc-400 leading-relaxed bg-zinc-900/50 rounded px-2 py-1.5">
                     {ex.notes}
                   </p>
                 )}
@@ -786,20 +786,20 @@ export function WorkoutClient({
       </main>
 
       {/* Bottom Bar — timer or finish button, never both */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/95 backdrop-blur-sm border-t border-border">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-t border-border shadow-[0_-8px_24px_rgba(0,0,0,0.3)]">
         <div className="max-w-lg mx-auto px-5 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
           {restRemaining !== null ? (
-            <div className="flex items-center gap-3">
+            <div className="fade-in flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => adjustTimer(-15)}
-                className="shrink-0 flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-800 text-sm font-mono font-bold text-zinc-300 cursor-pointer transition-colors duration-150 hover:bg-zinc-700 active:scale-95"
+                className="press shrink-0 flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-800 text-sm font-mono font-bold text-zinc-300 cursor-pointer hover:bg-zinc-700"
               >
                 -15
               </button>
-              <div className="flex-1 relative overflow-hidden rounded-lg bg-zinc-900 h-12">
+              <div className="flex-1 relative overflow-hidden rounded-lg bg-zinc-900 h-12 ring-1 ring-accent/20">
                 <div
-                  className="absolute inset-0 bg-accent/20 transition-all duration-1000 ease-linear"
+                  className="absolute inset-0 bg-gradient-to-r from-accent/30 to-accent/15 transition-[width] duration-1000 ease-linear"
                   style={{
                     width:
                       restDuration > 0
@@ -811,7 +811,7 @@ export function WorkoutClient({
                   <span className="text-accent">
                     <TimerIcon />
                   </span>
-                  <span className="font-mono text-2xl font-bold text-zinc-100">
+                  <span className="font-mono text-2xl font-bold text-zinc-100 tabular-nums">
                     {formatTime(restRemaining)}
                   </span>
                 </div>
@@ -819,14 +819,14 @@ export function WorkoutClient({
               <button
                 type="button"
                 onClick={() => adjustTimer(15)}
-                className="shrink-0 flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-800 text-sm font-mono font-bold text-zinc-300 cursor-pointer transition-colors duration-150 hover:bg-zinc-700 active:scale-95"
+                className="press shrink-0 flex items-center justify-center w-12 h-12 rounded-lg bg-zinc-800 text-sm font-mono font-bold text-zinc-300 cursor-pointer hover:bg-zinc-700"
               >
                 +15
               </button>
               <button
                 type="button"
                 onClick={dismissTimer}
-                className="shrink-0 flex items-center justify-center h-12 px-4 rounded-lg bg-accent text-sm font-bold text-white cursor-pointer transition-colors duration-150 hover:bg-accent-hover active:scale-95"
+                className="press shrink-0 flex items-center justify-center h-12 px-4 rounded-lg bg-accent text-sm font-bold text-white cursor-pointer hover:bg-accent-hover"
               >
                 Skip
               </button>
@@ -836,7 +836,7 @@ export function WorkoutClient({
               type="button"
               disabled={totalCompletedWorkingSets === 0 || isSaving}
               onClick={finishWorkout}
-              className="w-full rounded-xl bg-accent py-4 text-base font-display font-bold tracking-wider text-white uppercase cursor-pointer transition-all duration-150 hover:bg-accent-hover active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
+              className="press w-full rounded-xl bg-accent py-4 text-base font-display font-bold tracking-wider text-white uppercase cursor-pointer hover:bg-accent-hover shadow-lg shadow-accent/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
             >
               {isSaving ? "Saving..." : "Finish Workout"}
             </button>
@@ -885,9 +885,9 @@ function SetRow({
 
   return (
     <div
-      className={`flex items-center gap-1.5 rounded-lg px-1.5 py-2 transition-colors duration-150 ${
+      className={`flex items-center gap-1.5 rounded-lg px-1.5 py-2 transition-colors duration-[var(--duration-base)] ease-[var(--ease-out)] ${
         set.completed
-          ? "bg-success/10"
+          ? "bg-success/10 ring-1 ring-success/20"
           : isWarmup
             ? "bg-zinc-900/50"
             : "bg-zinc-900/80"
@@ -937,14 +937,19 @@ function SetRow({
       <button
         type="button"
         onClick={() => onToggleComplete(weId, index, exercise)}
-        className={`shrink-0 flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer transition-all duration-150 ${
+        className={`press shrink-0 flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer ${
           set.completed
-            ? "bg-success text-white"
+            ? "bg-success text-white shadow-md shadow-success/30"
             : "bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300"
         }`}
         aria-label={set.completed ? "Undo set" : "Complete set"}
       >
-        <CheckIcon size={20} />
+        <span
+          key={set.completed ? "done" : "todo"}
+          className={set.completed ? "pop-in inline-flex" : "inline-flex"}
+        >
+          <CheckIcon size={20} />
+        </span>
       </button>
     </div>
   );

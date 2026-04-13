@@ -37,7 +37,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#0a0a0a",
+  themeColor: "#0b0a09",
 };
 
 export default function RootLayout({
@@ -50,7 +50,7 @@ export default function RootLayout({
       lang="en"
       className={`${barlowCondensed.variable} ${barlow.variable} ${jetbrainsMono.variable} h-full`}
     >
-      <body className="min-h-dvh bg-zinc-950 text-zinc-100 antialiased font-body">
+      <body className="min-h-dvh bg-background text-foreground antialiased font-body">
         <NotificationPrompt />
         {children}
       </body>
